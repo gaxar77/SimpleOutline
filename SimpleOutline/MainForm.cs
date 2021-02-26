@@ -76,22 +76,17 @@ namespace EasyOutline
 
         }
 
-        private void menuItemAdd_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void menuItemInsert_Click(object sender, EventArgs e)
         {
             var selectedDocument = outlineDocumentsController.GetSelectedDocument();
             var controllerOfSelectedDocument = outlineDocumentsController.GetDocumentController(selectedDocument);
             var selectedItem = controllerOfSelectedDocument.GetSelectedOutlineItem();
-            controllerOfSelectedDocument.AddItem(selectedItem, new OutlineItem { Name = "Item" });
+            controllerOfSelectedDocument.InsertItem(selectedItem, new OutlineItem { Name = "Item" });
         }
 
         private void menuItemRename_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void menuItemMoveUp_Click(object sender, EventArgs e)
@@ -121,6 +116,10 @@ namespace EasyOutline
 
         private void menuItemDelete_Click(object sender, EventArgs e)
         {
+            var selectedDocument = outlineDocumentsController.GetSelectedDocument();
+            var controllerOfSelectedDocument = outlineDocumentsController.GetDocumentController(selectedDocument);
+            var selectedItem = controllerOfSelectedDocument.GetSelectedOutlineItem();
+            controllerOfSelectedDocument.RemoveItem(selectedItem);
 
         }
 

@@ -45,7 +45,6 @@ namespace EasyOutline
             this.menuItemUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.menuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemInsert = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemRename = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
@@ -99,57 +98,57 @@ namespace EasyOutline
             // menuItemNew
             // 
             this.menuItemNew.Name = "menuItemNew";
-            this.menuItemNew.Size = new System.Drawing.Size(270, 34);
+            this.menuItemNew.Size = new System.Drawing.Size(176, 34);
             this.menuItemNew.Text = "New";
             this.menuItemNew.Click += new System.EventHandler(this.menuItemNew_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(267, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(173, 6);
             // 
             // menuItemOpen
             // 
             this.menuItemOpen.Name = "menuItemOpen";
-            this.menuItemOpen.Size = new System.Drawing.Size(270, 34);
+            this.menuItemOpen.Size = new System.Drawing.Size(176, 34);
             this.menuItemOpen.Text = "Open";
             this.menuItemOpen.Click += new System.EventHandler(this.menuItemOpen_Click);
             // 
             // menuItemSave
             // 
             this.menuItemSave.Name = "menuItemSave";
-            this.menuItemSave.Size = new System.Drawing.Size(270, 34);
+            this.menuItemSave.Size = new System.Drawing.Size(176, 34);
             this.menuItemSave.Text = "Save";
             this.menuItemSave.Click += new System.EventHandler(this.menuItemSave_Click);
             // 
             // menuItemSaveAs
             // 
             this.menuItemSaveAs.Name = "menuItemSaveAs";
-            this.menuItemSaveAs.Size = new System.Drawing.Size(270, 34);
+            this.menuItemSaveAs.Size = new System.Drawing.Size(176, 34);
             this.menuItemSaveAs.Text = "Save As";
             this.menuItemSaveAs.Click += new System.EventHandler(this.menuItemSaveAs_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(267, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(173, 6);
             // 
             // menuItemPrint
             // 
             this.menuItemPrint.Name = "menuItemPrint";
-            this.menuItemPrint.Size = new System.Drawing.Size(270, 34);
+            this.menuItemPrint.Size = new System.Drawing.Size(176, 34);
             this.menuItemPrint.Text = "Print";
             this.menuItemPrint.Click += new System.EventHandler(this.menuItemPrint_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(267, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(173, 6);
             // 
             // menuItemExit
             // 
             this.menuItemExit.Name = "menuItemExit";
-            this.menuItemExit.Size = new System.Drawing.Size(270, 34);
+            this.menuItemExit.Size = new System.Drawing.Size(176, 34);
             this.menuItemExit.Text = "Exit";
             this.menuItemExit.Click += new System.EventHandler(this.menuItemExit_Click);
             // 
@@ -159,7 +158,6 @@ namespace EasyOutline
             this.menuItemUndo,
             this.menuItemRedo,
             this.toolStripMenuItem5,
-            this.menuItemAdd,
             this.menuItemInsert,
             this.menuItemRename,
             this.toolStripMenuItem9,
@@ -191,14 +189,7 @@ namespace EasyOutline
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(208, 6);
-            // 
-            // menuItemAdd
-            // 
-            this.menuItemAdd.Name = "menuItemAdd";
-            this.menuItemAdd.Size = new System.Drawing.Size(270, 34);
-            this.menuItemAdd.Text = "Add";
-            this.menuItemAdd.Click += new System.EventHandler(this.menuItemAdd_Click);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(267, 6);
             // 
             // menuItemInsert
             // 
@@ -217,7 +208,7 @@ namespace EasyOutline
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(208, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(267, 6);
             // 
             // menuItemMoveUp
             // 
@@ -236,7 +227,7 @@ namespace EasyOutline
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(208, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(267, 6);
             // 
             // menuItemCut
             // 
@@ -277,7 +268,7 @@ namespace EasyOutline
             // menuItemAbout
             // 
             this.menuItemAbout.Name = "menuItemAbout";
-            this.menuItemAbout.Size = new System.Drawing.Size(270, 34);
+            this.menuItemAbout.Size = new System.Drawing.Size(164, 34);
             this.menuItemAbout.Text = "About";
             this.menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
             // 
@@ -313,7 +304,7 @@ namespace EasyOutline
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(792, 381);
+            this.tabPage2.Size = new System.Drawing.Size(792, 384);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -356,7 +347,6 @@ namespace EasyOutline
         private System.Windows.Forms.ToolStripMenuItem menuEdit;
         private System.Windows.Forms.ToolStripMenuItem menuItemUndo;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem menuItemAdd;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem menuItemCopy;
         private System.Windows.Forms.ToolStripMenuItem menuItemPaste;

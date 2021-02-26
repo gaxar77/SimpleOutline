@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace EasyOutline
 {
@@ -23,11 +24,17 @@ namespace EasyOutline
 
             TreeView outlineDocumentTreeView = new TreeView();
             outlineDocumentTreeView.Dock = DockStyle.Fill;
+            outlineDocumentTreeView.LabelEdit = true;
+            outlineDocumentTreeView.AfterLabelEdit += (s, e) =>
+            {
+                var outlineItem = (OutlineItem)e.Node.Tag;
+                outlineItem.Name = e.Label;
+            };
 
             page.Controls.Add(outlineDocumentTreeView);
             DocumentsTabControl.TabPages.Add(page);
 
-            GetDocumentController(document).AddItem(null, new OutlineItem() { Name = "Outline" });
+            GetDocumentController(document).InsertItem(null, new OutlineItem() { Name = "Outline" });
         }
 
         public OutlineDocument GetSelectedDocument()
