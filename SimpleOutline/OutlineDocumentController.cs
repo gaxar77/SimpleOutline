@@ -36,14 +36,14 @@ namespace EasyOutline
                 var parentNode = OutlineTreeView.Nodes.GetNodeWithTag(parentItem);
 
                 newItem.ParentItem = parentItem;
-                parentItem.ChildItems.Add(newItem);
+                parentItem.Items.Add(newItem);
                 parentNode.Nodes.Add(node);
             }
         }
 
         public void RemoveItem(OutlineItem item)
         {
-            item.ParentItem.ChildItems.Remove(item);
+            item.ParentItem.Items.Remove(item);
 
             TreeNode node = OutlineTreeView.Nodes.GetNodeWithTag(item);
             node.Parent.Nodes.Remove(node);
@@ -55,6 +55,37 @@ namespace EasyOutline
 
             TreeNode node = OutlineTreeView.Nodes.GetNodeWithTag(item);
             node.Name = item.Name;
+        }
+
+        public void CreateView()
+        {
+            TreeView outlineDocumentTreeView = new TreeView();
+            outlineDocumentTreeView.Dock = DockStyle.Fill;
+            outlineDocumentTreeView.LabelEdit = true;
+            outlineDocumentTreeView.AfterLabelEdit += (s, e) =>
+            {
+                var outlineItem = (OutlineItem)e.Node.Tag;
+                outlineItem.Name = e.Label;
+            };
+
+            OutlineTreeView = outlineDocumentTreeView;
+        }
+
+        public void LoadView()
+        {
+            if (Document.RootItem != null)
+            {
+                LoadItem(Document.RootItem);
+            }
+        }
+
+        public void LoadItem(OutlineItem item)
+        {
+            InsertItem(item.ParentItem, item);
+            foreach (OutlineItem childItem in item.Items)
+            {
+                InsertItem(item, childItem);
+            }
         }
     }
 }

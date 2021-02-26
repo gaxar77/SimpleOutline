@@ -19,49 +19,35 @@ namespace EasyOutline
         {
             Documents.Documents.Add(document);
 
-            TabPage page = new TabPage(document.FileName);
-            page.Tag = document;
+            var page = new TabPage(document.FileName);
+            var documentController = new OutlineDocumentController(null, document);
+            page.Tag = documentController;
 
-            TreeView outlineDocumentTreeView = new TreeView();
-            outlineDocumentTreeView.Dock = DockStyle.Fill;
-            outlineDocumentTreeView.LabelEdit = true;
-            outlineDocumentTreeView.AfterLabelEdit += (s, e) =>
-            {
-                var outlineItem = (OutlineItem)e.Node.Tag;
-                outlineItem.Name = e.Label;
-            };
+            documentController.CreateView();
+            documentController.LoadView();
 
-            page.Controls.Add(outlineDocumentTreeView);
+            page.Controls.Add(documentController.OutlineTreeView);
+
             DocumentsTabControl.TabPages.Add(page);
-
-            GetDocumentController(document).InsertItem(null, new OutlineItem() { Name = "Outline" });
         }
 
         public OutlineDocument GetSelectedDocument()
         {
-            return DocumentsTabControl.SelectedTab.Tag as OutlineDocument;
+            var documentController = (OutlineDocumentController)DocumentsTabControl.SelectedTab.Tag;
+
+            return documentController.Document;
         }
 
         public OutlineDocumentController GetDocumentController(OutlineDocument document)
         {
-            TreeView treeView = 
-                DocumentsTabControl
-                .TabPages
-                .OfType<TabPage>()
-                .SingleOrDefault(page => page.Tag == document)
-                .Controls[0] as TreeView;
-
-            if (treeView.Tag is OutlineDocumentController documentController)
+            foreach (TabPage page in this.DocumentsTabControl.TabPages)
             {
-                return documentController;
+                var documentController = (OutlineDocumentController)page.Tag;
+                if (documentController.Document == document)
+                    return documentController;
             }
-            else
-            {
-                treeView.Tag = new OutlineDocumentController(
-                    treeView, document);
 
-                return treeView.Tag as OutlineDocumentController;
-            }
+            throw new System.Exception();
         }
     }
 }

@@ -37,6 +37,7 @@ namespace EasyOutline
         private void menuItemNew_Click(object sender, EventArgs e)
         {
             OutlineDocument document = new OutlineDocument() { FileName = "Untitled.sof" };
+            document.RootItem = new OutlineItem() { Name = "Untitled Outline" };
 
             outlineDocumentsController.AddDocument(document);
         }
