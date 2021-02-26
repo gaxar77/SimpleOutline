@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿//Todo: Fix problem with insertion, copying, pasting of items.
+
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace EasyOutline
 {
@@ -17,8 +20,9 @@ namespace EasyOutline
         {
             return OutlineTreeView.SelectedNode?.Tag as OutlineItem;
         }
-        
-        public void InsertItem(OutlineItem parentItem, OutlineItem newItem)
+
+        //Todo: Refactor method
+        public void InsertItem(OutlineItem parentItem, OutlineItem newItem, bool insertIntoModel = true)
         {
             TreeNode node = new TreeNode(newItem.Name);
             node.Tag = newItem;
@@ -36,8 +40,16 @@ namespace EasyOutline
                 var parentNode = OutlineTreeView.Nodes.GetNodeWithTag(parentItem);
 
                 newItem.ParentItem = parentItem;
-                parentItem.Items.Add(newItem);
+                
+                if (insertIntoModel)
+                    parentItem.Items.Add(newItem);
+                
                 parentNode.Nodes.Add(node);
+            }
+
+            foreach (OutlineItem childItem in newItem.Items.ToArray())
+            {
+                InsertItem(newItem, childItem, false);
             }
         }
 
@@ -86,6 +98,26 @@ namespace EasyOutline
             {
                 InsertItem(item, childItem);
             }
+        }
+
+        public void CopySelectedItem()
+        {
+            var selectedItem = GetSelectedOutlineItem();
+            var selectedItemXElement = selectedItem.ToXElement();
+            var selectedItemXml = selectedItemXElement.ToString();
+
+            Clipboard.SetText(selectedItemXml, TextDataFormat.UnicodeText);
+        }
+
+        public void PasteItem()
+        {
+            var xmlInClipboard = Clipboard.GetText();
+            var xElementOfXmlFromClipboard = XElement.Parse(xmlInClipboard);
+            var newItem = new OutlineItem(xElementOfXmlFromClipboard);
+
+            var selectedItem = GetSelectedOutlineItem();
+
+            InsertItem(selectedItem, newItem);
         }
     }
 }

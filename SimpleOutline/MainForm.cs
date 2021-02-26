@@ -36,10 +36,7 @@ namespace EasyOutline
 
         private void menuItemNew_Click(object sender, EventArgs e)
         {
-            OutlineDocument document = new OutlineDocument() { FileName = "Untitled.sof" };
-            document.RootItem = new OutlineItem() { Name = "Untitled Outline" };
-
-            outlineDocumentsController.AddDocument(document);
+            outlineDocumentsController.AddNewDocument();
         }
 
         private void menuItemOpen_Click(object sender, EventArgs e)
@@ -79,10 +76,7 @@ namespace EasyOutline
 
         private void menuItemInsert_Click(object sender, EventArgs e)
         {
-            var selectedDocument = outlineDocumentsController.GetSelectedDocument();
-            var controllerOfSelectedDocument = outlineDocumentsController.GetDocumentController(selectedDocument);
-            var selectedItem = controllerOfSelectedDocument.GetSelectedOutlineItem();
-            controllerOfSelectedDocument.InsertItem(selectedItem, new OutlineItem { Name = "Item" });
+            outlineDocumentsController.InsertNewOutlineItemIntoSelectedDocument();
         }
 
         private void menuItemRename_Click(object sender, EventArgs e)
@@ -107,21 +101,17 @@ namespace EasyOutline
 
         private void menuItemCopy_Click(object sender, EventArgs e)
         {
-
+            outlineDocumentsController.CopySelectedOutlineItemInSelectedDocument();
         }
 
         private void menuItemPaste_Click(object sender, EventArgs e)
         {
-
+            outlineDocumentsController.PasteOutlineItemInClipboardInSelectedDocument();
         }
 
         private void menuItemDelete_Click(object sender, EventArgs e)
         {
-            var selectedDocument = outlineDocumentsController.GetSelectedDocument();
-            var controllerOfSelectedDocument = outlineDocumentsController.GetDocumentController(selectedDocument);
-            var selectedItem = controllerOfSelectedDocument.GetSelectedOutlineItem();
-            controllerOfSelectedDocument.RemoveItem(selectedItem);
-
+            outlineDocumentsController.DeleteSelectedOutlineItemFromSelectedDocument();
         }
 
         private void menuItemAbout_Click(object sender, EventArgs e)

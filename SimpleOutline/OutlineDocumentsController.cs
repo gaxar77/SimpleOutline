@@ -31,6 +31,14 @@ namespace EasyOutline
             DocumentsTabControl.TabPages.Add(page);
         }
 
+        public void AddNewDocument()
+        {
+            OutlineDocument document = new OutlineDocument() { FileName = "Untitled.sof" };
+            document.RootItem = new OutlineItem("Untitled Outline");
+
+            AddDocument(document);
+        }
+
         public OutlineDocument GetSelectedDocument()
         {
             var documentController = (OutlineDocumentController)DocumentsTabControl.SelectedTab.Tag;
@@ -48,6 +56,40 @@ namespace EasyOutline
             }
 
             throw new System.Exception();
+        }
+
+        public void InsertNewOutlineItemIntoSelectedDocument()
+        {
+            var controllerOfSelectedDocument = GetControllerOfSelectedDocument();
+            var selectedItem = controllerOfSelectedDocument.GetSelectedOutlineItem();
+            controllerOfSelectedDocument.InsertItem(selectedItem, new OutlineItem("New Item"));
+        }
+
+        public void DeleteSelectedOutlineItemFromSelectedDocument()
+        {
+            var controllerOfSelectedDocument = GetControllerOfSelectedDocument();
+            var selectedItem = controllerOfSelectedDocument.GetSelectedOutlineItem();
+            controllerOfSelectedDocument.RemoveItem(selectedItem);
+        }
+
+        public OutlineDocumentController GetControllerOfSelectedDocument()
+        {
+            var selectedDocumentPage = DocumentsTabControl.SelectedTab;
+            var controllerOfSelectedDocument = (OutlineDocumentController)selectedDocumentPage.Tag;
+
+            return controllerOfSelectedDocument;
+        }
+
+        public void CopySelectedOutlineItemInSelectedDocument()
+        {
+            var controllerOfSelectedDocument = GetControllerOfSelectedDocument();
+            controllerOfSelectedDocument.CopySelectedItem();
+        }
+
+        public void PasteOutlineItemInClipboardInSelectedDocument()
+        {
+            var controllerOfSelectedDocument = GetControllerOfSelectedDocument();
+            controllerOfSelectedDocument.PasteItem();
         }
     }
 }
