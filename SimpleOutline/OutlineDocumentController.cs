@@ -39,10 +39,11 @@ namespace EasyOutline
             {
                 var parentNode = OutlineTreeView.Nodes.GetNodeWithTag(parentItem);
 
-                newItem.ParentItem = parentItem;
-                
                 if (insertIntoModel)
+                {
+                    newItem.ParentItem = parentItem;
                     parentItem.Items.Add(newItem);
+                }
                 
                 parentNode.Nodes.Add(node);
             }
@@ -53,8 +54,16 @@ namespace EasyOutline
             }
         }
 
+        public void RemoveSelectedItem()
+        {
+            var selectedItem = GetSelectedOutlineItem();
+            RemoveItem(selectedItem);
+        }
         public void RemoveItem(OutlineItem item)
         {
+            if (item.ParentItem == null)
+                throw new System.ApplicationException();
+
             item.ParentItem.Items.Remove(item);
 
             TreeNode node = OutlineTreeView.Nodes.GetNodeWithTag(item);
@@ -118,6 +127,12 @@ namespace EasyOutline
             var selectedItem = GetSelectedOutlineItem();
 
             InsertItem(selectedItem, newItem);
+        }
+
+        public void CutSelectedItem()
+        {
+            CopySelectedItem();
+            RemoveSelectedItem();
         }
     }
 }

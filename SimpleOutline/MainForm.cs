@@ -96,7 +96,7 @@ namespace EasyOutline
 
         private void menuItemCut_Click(object sender, EventArgs e)
         {
-
+            outlineDocumentsController.CutSelectedOutlineItemInSelectedDocument();
         }
 
         private void menuItemCopy_Click(object sender, EventArgs e)
