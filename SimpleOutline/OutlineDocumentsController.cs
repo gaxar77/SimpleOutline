@@ -68,7 +68,7 @@ namespace EasyOutline
         public void DeleteSelectedOutlineItemFromSelectedDocument()
         {
             var controllerOfSelectedDocument = GetControllerOfSelectedDocument();
-            controllerOfSelectedDocument.RemoveSelectedItem();
+            controllerOfSelectedDocument.DeleteSelectedItem();
         }
 
         public OutlineDocumentController GetControllerOfSelectedDocument()
@@ -95,6 +95,12 @@ namespace EasyOutline
         {
             var controllerOfSelectedDocument = GetControllerOfSelectedDocument();
             controllerOfSelectedDocument.CutSelectedItem();
+        }
+
+        public void RenameSelectedOutlineItemInSelectedDocument()
+        {
+            var controllerOfSelectedDocument = GetControllerOfSelectedDocument();
+            controllerOfSelectedDocument.RenameSelectedItem();
         }
     }
 }

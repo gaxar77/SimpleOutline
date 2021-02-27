@@ -54,12 +54,12 @@ namespace EasyOutline
             }
         }
 
-        public void RemoveSelectedItem()
+        public void DeleteSelectedItem()
         {
             var selectedItem = GetSelectedOutlineItem();
-            RemoveItem(selectedItem);
+            DeleteItem(selectedItem);
         }
-        public void RemoveItem(OutlineItem item)
+        public void DeleteItem(OutlineItem item)
         {
             if (item.ParentItem == null)
                 throw new System.ApplicationException();
@@ -70,6 +70,13 @@ namespace EasyOutline
             node.Parent.Nodes.Remove(node);
         }
 
+        public void RenameSelectedItem()
+        {
+            var selectedItem = GetSelectedOutlineItem();
+
+            TreeNode node = OutlineTreeView.Nodes.GetNodeWithTag(selectedItem);
+            node.BeginEdit();
+        }
         public void RenameItem(OutlineItem item, string newName)
         {
             item.Name = newName;
@@ -132,7 +139,7 @@ namespace EasyOutline
         public void CutSelectedItem()
         {
             CopySelectedItem();
-            RemoveSelectedItem();
+            DeleteSelectedItem();
         }
     }
 }

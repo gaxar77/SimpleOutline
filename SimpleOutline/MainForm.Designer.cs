@@ -47,7 +47,6 @@ namespace EasyOutline
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.menuItemInsert = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemRename = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             this.menuItemMoveUp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemMoveDown = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
@@ -61,6 +60,7 @@ namespace EasyOutline
             this.ctrlOutlinesTabView = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.ctrlOutlinesTabView.SuspendLayout();
             this.SuspendLayout();
@@ -158,16 +158,16 @@ namespace EasyOutline
             this.menuItemUndo,
             this.menuItemRedo,
             this.toolStripMenuItem5,
-            this.menuItemInsert,
-            this.menuItemRename,
-            this.toolStripMenuItem9,
             this.menuItemMoveUp,
             this.menuItemMoveDown,
             this.toolStripMenuItem4,
             this.menuItemCut,
             this.menuItemCopy,
             this.menuItemPaste,
-            this.menuItemDelete});
+            this.menuItemDelete,
+            this.toolStripMenuItem6,
+            this.menuItemInsert,
+            this.menuItemRename});
             this.menuEdit.Name = "menuEdit";
             this.menuEdit.Size = new System.Drawing.Size(58, 29);
             this.menuEdit.Text = "Edit";
@@ -204,11 +204,6 @@ namespace EasyOutline
             this.menuItemRename.Size = new System.Drawing.Size(270, 34);
             this.menuItemRename.Text = "Rename";
             this.menuItemRename.Click += new System.EventHandler(this.menuItemRename_Click);
-            // 
-            // toolStripMenuItem9
-            // 
-            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(267, 6);
             // 
             // menuItemMoveUp
             // 
@@ -268,7 +263,7 @@ namespace EasyOutline
             // menuItemAbout
             // 
             this.menuItemAbout.Name = "menuItemAbout";
-            this.menuItemAbout.Size = new System.Drawing.Size(164, 34);
+            this.menuItemAbout.Size = new System.Drawing.Size(270, 34);
             this.menuItemAbout.Text = "About";
             this.menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
             // 
@@ -308,6 +303,11 @@ namespace EasyOutline
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(267, 6);
             // 
             // MainForm
             // 
@@ -353,7 +353,6 @@ namespace EasyOutline
         private System.Windows.Forms.ToolStripMenuItem menuItemDelete;
         private System.Windows.Forms.ToolStripMenuItem menuItemInsert;
         private System.Windows.Forms.ToolStripMenuItem menuItemRename;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem menuItemMoveDown;
         private System.Windows.Forms.ToolStripMenuItem menuHelp;
         private System.Windows.Forms.ToolStripMenuItem menuItemAbout;
@@ -361,6 +360,7 @@ namespace EasyOutline
         private System.Windows.Forms.ToolStripMenuItem menuItemRedo;
         private System.Windows.Forms.ToolStripMenuItem menuItemMoveUp;
         private System.Windows.Forms.ToolStripMenuItem menuItemCut;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
     }
 }
 

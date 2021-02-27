@@ -81,7 +81,7 @@ namespace EasyOutline
 
         private void menuItemRename_Click(object sender, EventArgs e)
         {
-            
+            outlineDocumentsController.RenameSelectedOutlineItemInSelectedDocument();
         }
 
         private void menuItemMoveUp_Click(object sender, EventArgs e)
