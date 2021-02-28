@@ -48,6 +48,8 @@ namespace SimpleOutline.Models
                 throw new ArgumentNullException(nameof(name));
 
             _name = name;
+
+            _items = new OutlineItemCollection();
         }
         public void OnPropertyChanged(string propertyName)
         {
