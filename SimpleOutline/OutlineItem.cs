@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace EasyOutline
+namespace SimpleOutline
 {
     public class OutlineItem
     {

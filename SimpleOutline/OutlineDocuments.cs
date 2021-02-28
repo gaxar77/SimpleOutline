@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EasyOutline
+namespace SimpleOutline
 {
     public class OutlineDocuments
     {

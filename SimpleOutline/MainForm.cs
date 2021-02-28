@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EasyOutline
+namespace SimpleOutline
 {
 
     public partial class MainForm : Form

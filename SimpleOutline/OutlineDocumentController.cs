@@ -3,8 +3,18 @@
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace EasyOutline
+namespace SimpleOutline
 {
+    public interface ICommand
+    {
+        void Execute();
+        void Reverse();
+    }
+
+    public interface ICommandFactory
+    {
+        ICommand CreateCommand(string command);
+    }
     public class OutlineDocumentController
     {
         public TreeView OutlineTreeView { get; set; }

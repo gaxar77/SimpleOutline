@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-namespace EasyOutline
+namespace SimpleOutline
 {
     public class OutlineDocumentsController
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace EasyOutline
+namespace SimpleOutline
 {
     partial class MainForm
     {

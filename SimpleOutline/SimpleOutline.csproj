@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8D427F89-A1AA-4810-945E-7617E9F72922}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>EasyOutline</RootNamespace>
-    <AssemblyName>EasyOutline</AssemblyName>
+    <RootNamespace>SimpleOutline</RootNamespace>
+    <AssemblyName>SimpleOutline</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -46,12 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\UntestedCodeAttribute.cs" />
+    <Compile Include="Attributes\UnfinishedCodeAttribute.cs" />
+    <Compile Include="Attributes\UnusedCodeAttribute.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\OutlineItem.cs" />
     <Compile Include="OutlineDocument.cs" />
     <Compile Include="OutlineDocumentController.cs" />
     <Compile Include="OutlineDocuments.cs" />
@@ -71,6 +75,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -84,6 +89,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

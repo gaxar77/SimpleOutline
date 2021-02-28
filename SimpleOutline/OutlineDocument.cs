@@ -1,4 +1,4 @@
-﻿namespace EasyOutline
+﻿namespace SimpleOutline
 {
     public class OutlineDocument
     {

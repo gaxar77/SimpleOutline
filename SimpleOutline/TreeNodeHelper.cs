@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace EasyOutline
+namespace SimpleOutline
 {
     public static class TreeNodeHelper
     {
