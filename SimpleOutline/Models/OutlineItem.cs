@@ -9,11 +9,16 @@ using SimpleOutline.Attributes;
 
 namespace SimpleOutline.Models
 {
+    [Todo("Replace with custom collection class that rejects null and duplicate items.")]
+    class OutlineItemCollection : ObservableCollection<OutlineItem>
+    {
+    }
+
     [UnusedCode, UnfinishedCode, UntestedCode]
     class OutlineItem : INotifyPropertyChanged
     {
         private string _name;
-        private ObservableCollection<OutlineItem> _items;
+        private OutlineItemCollection _items;
 
         public string Name
         {
@@ -30,7 +35,7 @@ namespace SimpleOutline.Models
             }
         }
 
-        public ObservableCollection<OutlineItem> Items
+        public OutlineItemCollection Items
         {
             get { return _items; }
         }

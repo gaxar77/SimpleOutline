@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\TodoAttribute.cs" />
     <Compile Include="Attributes\UntestedCodeAttribute.cs" />
     <Compile Include="Attributes\UnfinishedCodeAttribute.cs" />
     <Compile Include="Attributes\UnusedCodeAttribute.cs" />
