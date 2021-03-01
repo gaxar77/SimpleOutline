@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Xml.Linq;
+using System.Windows.Forms;
 using SimpleOutline.Models;
 using SimpleOutline.Data;
-using System.Windows.Forms;
 
 namespace UnitTests
 {
@@ -49,6 +49,27 @@ namespace UnitTests
             var loadedClipboardData = ClipboardData.LoadFromClipboard();
 
             Assert.AreEqual(data, loadedClipboardData.Data);
+        }
+    }
+    
+    [TestClass]
+    public class OutlineItemClipboardMethodTest
+    {
+        [TestMethod]
+        public void OutlineItemsStoredInAndRetrievedFromClipboardEqual()
+        {
+            var outlineItem1 = new OutlineItem("Root Item");
+            var outlineItem2 = new OutlineItem("Item 1");
+            var outlineItem3 = new OutlineItem("Item 2");
+
+            outlineItem1.Items.Add(outlineItem2);
+            outlineItem1.Items.Add(outlineItem3);
+
+            outlineItem1.CopyToClipboard();
+
+            var outlineItemFromClipboard = OutlineItem.LoadFromClipboard();
+
+            Assert.AreEqual(outlineItem1.ToXmlElement().ToString(), outlineItemFromClipboard.ToXmlElement().ToString());
         }
     }
 

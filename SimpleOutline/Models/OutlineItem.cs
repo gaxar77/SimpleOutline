@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Xml.Linq;
 using SimpleOutline.Attributes;
+using SimpleOutline.Data;
 
 namespace SimpleOutline.Models
 {
@@ -73,6 +74,24 @@ namespace SimpleOutline.Models
             var eventArgs = new PropertyChangedEventArgs(propertyName);
 
             PropertyChanged?.Invoke(this, eventArgs);
+        }
+
+        public void CopyToClipboard()
+        {
+            var thisItemAsXmlElement = this.ToXmlElement();
+            var thisItemAsXml = thisItemAsXmlElement.ToString();
+            var clipboardData = new ClipboardData(thisItemAsXml);
+
+            clipboardData.SaveToClipboard();
+        }
+
+        public static OutlineItem LoadFromClipboard()
+        {
+            var clipboardData = ClipboardData.LoadFromClipboard();
+            var xmlElement = XElement.Parse(clipboardData.Data);
+            var outlineItem = OutlineItem.CreateFromXmlElement(xmlElement);
+
+            return outlineItem;
         }
 
         public XElement ToXmlElement()
