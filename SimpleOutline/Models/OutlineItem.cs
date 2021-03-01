@@ -92,6 +92,11 @@ namespace SimpleOutline.Models
         [Todo("Refactor into decoder/deserializer class (whatever you want to call it).")]
         public static OutlineItem CreateFromXmlElement(XElement xmlElement)
         {
+            if (xmlElement == null)
+            {
+                throw new ArgumentNullException(nameof(xmlElement));
+            }
+
             if (xmlElement.Name != "Item")
             {
                 throw new OutlineDecodingException();
