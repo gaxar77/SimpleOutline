@@ -6,7 +6,7 @@ using SimpleOutline.Models;
 
 namespace UnitTests
 {
-    [TestClass]
+    //This test needs to be fixed to do a full equal comparison of the collections.
     public class OutlineItemClipboardMethodTest
     {
         [TestMethod]
@@ -19,11 +19,14 @@ namespace UnitTests
             outlineItem1.Items.Add(outlineItem2);
             outlineItem1.Items.Add(outlineItem3);
 
-            var clipboardAdapter = new OutlineItemClipboardAdapter();
-            clipboardAdapter.SetItem(outlineItem1);
+            var collection = new OutlineItemCollection();
+            collection.Add(outlineItem1);
 
-            var item = clipboardAdapter.GetItem();
-            Assert.AreEqual(outlineItem1.ToXmlElement().ToString(), item.ToXmlElement().ToString());
+            var clipboardAdapter = new OutlineItemCollectionClipboardAdapter();
+            clipboardAdapter.SetItemCollection(collection);
+
+            var items = clipboardAdapter.GetItemCollection();
+            Assert.AreEqual(collection[0].Name, items[0].Name);
         }
     }
 

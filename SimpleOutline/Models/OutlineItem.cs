@@ -91,7 +91,7 @@ namespace SimpleOutline.Models
     {
     }
 
-    public class OutlineItemClipboardAdapter
+    public class OutlineItemCollectionClipboardAdapter
     {
         private DataFormat _format;
         public DataFormat Format
@@ -100,26 +100,26 @@ namespace SimpleOutline.Models
             {
                 if (_format == null)
                 {
-                    _format = DataFormats.GetDataFormat(typeof(OutlineItem).FullName);
+                    _format = DataFormats.GetDataFormat(typeof(OutlineItemCollection).FullName);
                 }
 
                 return _format;
             }
         }
 
-        public void SetItem(OutlineItem item)
+        public void SetItemCollection(OutlineItemCollection item)
         {
             var dataObject = new DataObject(Format.Name, item);
             Clipboard.SetDataObject(dataObject, true);
         }
 
-        public OutlineItem GetItem()
+        public OutlineItemCollection GetItemCollection()
         {
             if (Clipboard.ContainsData(Format.Name))
             {
                 var dataObject = Clipboard.GetDataObject();
 
-                return (OutlineItem)dataObject.GetData(Format.Name);
+                return (OutlineItemCollection)dataObject.GetData(Format.Name);
             }
 
             return null;
