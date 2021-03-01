@@ -6,11 +6,69 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Xml.Linq;
+using System.Windows;
 using SimpleOutline.Attributes;
-using SimpleOutline.Data;
 
 namespace SimpleOutline.Models
 {
+    [UnfinishedCode]
+    public class ViewModel
+    {
+        public ObservableCollection<OutlineDocument> Documents { get; private set; }
+
+
+    }
+    [UntestedCode]
+    public class OutlineDocument : INotifyPropertyChanged
+    {
+        private string _fileName;
+        private OutlineItem _rootItem;
+
+        public string FileName
+        {
+            get { return _fileName; }
+
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(FileName));
+
+                _fileName = value;
+
+                OnPropertyChanged(nameof(FileName));
+            }
+        }
+
+        public OutlineItem RootItem
+        {
+            get { return _rootItem; }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            var eventArgs = new PropertyChangedEventArgs(propertyName);
+
+            PropertyChanged?.Invoke(this, eventArgs);
+        }
+
+        public OutlineDocument(string fileName)
+        {
+            if (fileName == null)
+                throw new ArgumentNullException(nameof(fileName));
+
+            FileName = fileName;
+
+            _rootItem = new OutlineItem("Root Item");
+        }
+
+        public OutlineDocument()
+            : this("Untitled.sof")
+        {
+
+        }
+    }
     public class OutlineDecodingException : Exception
     {
         private const string DefaultMessage = "An error occured while trying to decode outline data.";
@@ -28,11 +86,47 @@ namespace SimpleOutline.Models
     }
 
     [Todo("Replace with custom collection class that rejects null and duplicate items.")]
+    [Serializable]
     public class OutlineItemCollection : ObservableCollection<OutlineItem>
     {
     }
 
+    public class OutlineItemClipboardAdapter
+    {
+        private DataFormat _format;
+        public DataFormat Format
+        {
+            get
+            {
+                if (_format == null)
+                {
+                    _format = DataFormats.GetDataFormat(typeof(OutlineItem).FullName);
+                }
+
+                return _format;
+            }
+        }
+
+        public void SetItem(OutlineItem item)
+        {
+            var dataObject = new DataObject(Format.Name, item);
+            Clipboard.SetDataObject(dataObject, true);
+        }
+
+        public OutlineItem GetItem()
+        {
+            if (Clipboard.ContainsData(Format.Name))
+            {
+                var dataObject = Clipboard.GetDataObject();
+
+                return (OutlineItem)dataObject.GetData(Format.Name);
+            }
+
+            return null;
+        }
+    }
     [UnusedCode, UnfinishedCode, UntestedCode]
+    [Serializable]
     public class OutlineItem : INotifyPropertyChanged
     {
         private string _name;
@@ -44,7 +138,7 @@ namespace SimpleOutline.Models
             
             set
             {
-                if (_name == null)
+                if (value == null)
                     throw new ArgumentNullException(nameof(Name));
 
                 _name = value;
@@ -56,6 +150,16 @@ namespace SimpleOutline.Models
         public OutlineItemCollection Items
         {
             get { return _items; }
+
+            private set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(Items));
+                }
+
+                _items = value;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -65,9 +169,9 @@ namespace SimpleOutline.Models
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
 
-            _name = name;
+            Name = name;
 
-            _items = new OutlineItemCollection();
+            Items = new OutlineItemCollection();
         }
         public void OnPropertyChanged(string propertyName)
         {
@@ -75,25 +179,6 @@ namespace SimpleOutline.Models
 
             PropertyChanged?.Invoke(this, eventArgs);
         }
-
-        public void CopyToClipboard()
-        {
-            var thisItemAsXmlElement = this.ToXmlElement();
-            var thisItemAsXml = thisItemAsXmlElement.ToString();
-            var clipboardData = new ClipboardData(thisItemAsXml);
-
-            clipboardData.SaveToClipboard();
-        }
-
-        public static OutlineItem LoadFromClipboard()
-        {
-            var clipboardData = ClipboardData.LoadFromClipboard();
-            var xmlElement = XElement.Parse(clipboardData.Data);
-            var outlineItem = OutlineItem.CreateFromXmlElement(xmlElement);
-
-            return outlineItem;
-        }
-
         public XElement ToXmlElement()
         {
             var thisItemXmlElement = new XElement("Item", new XAttribute("Name", Name));
