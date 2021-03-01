@@ -50,6 +50,7 @@
     <Compile Include="Attributes\UntestedCodeAttribute.cs" />
     <Compile Include="Attributes\UnfinishedCodeAttribute.cs" />
     <Compile Include="Attributes\UnusedCodeAttribute.cs" />
+    <Compile Include="Data\ClipboardData.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
