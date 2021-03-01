@@ -5,17 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Xml.Linq;
 using SimpleOutline.Attributes;
 
 namespace SimpleOutline.Models
 {
+    public class OutlineDecodingException : Exception
+    {
+        private const string DefaultMessage = "An error occured while trying to decode outline data.";
+        public OutlineDecodingException()
+            : base(DefaultMessage)
+        {
+
+        }
+
+        public OutlineDecodingException(Exception innerException)
+            : base(DefaultMessage, innerException)
+        {
+
+        }
+    }
+
     [Todo("Replace with custom collection class that rejects null and duplicate items.")]
-    class OutlineItemCollection : ObservableCollection<OutlineItem>
+    public class OutlineItemCollection : ObservableCollection<OutlineItem>
     {
     }
 
     [UnusedCode, UnfinishedCode, UntestedCode]
-    class OutlineItem : INotifyPropertyChanged
+    public class OutlineItem : INotifyPropertyChanged
     {
         private string _name;
         private OutlineItemCollection _items;
@@ -44,7 +61,7 @@ namespace SimpleOutline.Models
 
         public OutlineItem(string name)
         {
-            if (_name == null)
+            if (name == null)
                 throw new ArgumentNullException(nameof(name));
 
             _name = name;
@@ -56,6 +73,54 @@ namespace SimpleOutline.Models
             var eventArgs = new PropertyChangedEventArgs(propertyName);
 
             PropertyChanged?.Invoke(this, eventArgs);
+        }
+
+        public XElement ToXmlElement()
+        {
+            var thisItemXmlElement = new XElement("Item", new XAttribute("Name", Name));
+
+            foreach (OutlineItem childItem in Items)
+            {
+                var childItemXmlElement = childItem.ToXmlElement();
+
+                thisItemXmlElement.Add(childItemXmlElement);
+            }
+
+            return thisItemXmlElement;
+        }
+
+        [Todo("Refactor into decoder/deserializer class (whatever you want to call it).")]
+        public static OutlineItem CreateFromXmlElement(XElement xmlElement)
+        {
+            if (xmlElement.Name != "Item")
+            {
+                throw new OutlineDecodingException();
+            }
+
+            if (xmlElement.Attributes().SingleOrDefault(attr => attr.Name == "Name") == null)
+            {
+                throw new OutlineDecodingException();
+            }
+
+            if (xmlElement.Attributes().SingleOrDefault(attr => attr.Name != "Name") != null)
+            {
+                throw new OutlineDecodingException();
+            }
+
+            if (xmlElement.Elements().SingleOrDefault(elem => elem.Name != "Item") != null)
+            {
+                throw new OutlineDecodingException();
+            }
+
+            var thisOutlineItemName = xmlElement.Attribute("Name").Value.ToString();
+            var thisOutlineItem = new OutlineItem(thisOutlineItemName);
+            foreach (XElement childOutlineItemXmlElement in xmlElement.Elements("Item"))
+            {
+                var childOutlineItem = OutlineItem.CreateFromXmlElement(childOutlineItemXmlElement);
+                thisOutlineItem.Items.Add(childOutlineItem);
+            }
+
+            return thisOutlineItem;
         }
     }
 }

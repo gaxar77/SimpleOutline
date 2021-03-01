@@ -14,6 +14,8 @@ namespace SimpleOutline.Attributes
         {
             if (_todoComment == null)
                 throw new ArgumentNullException(nameof(todoComment));
+
+            _todoComment = todoComment;
         }
     }
 }
