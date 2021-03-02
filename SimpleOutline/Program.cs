@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
+using SimpleOutline.Models;
+using SimpleOutline.Views;
 
 namespace SimpleOutline
 {
@@ -14,9 +16,21 @@ namespace SimpleOutline
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            var app = new Application();
+            var mainWindow = new DocumentWindow();
+
+            var document = new OutlineDocument();
+            
+
+            mainWindow.DataContext = document;
+            var item = new OutlineItem("Root");
+
+            item.Items.Add(new OutlineItem("Item 1"));
+            item.Items.Add(new OutlineItem("Item 2"));
+
+            document.Items.Add(item);
+            app.Run(mainWindow);
+
         }
     }
 }

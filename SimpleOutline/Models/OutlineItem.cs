@@ -22,7 +22,7 @@ namespace SimpleOutline.Models
     public class OutlineDocument : INotifyPropertyChanged
     {
         private string _fileName;
-        private OutlineItem _rootItem;
+        private OutlineItemCollection _items;
 
         public string FileName
         {
@@ -39,9 +39,9 @@ namespace SimpleOutline.Models
             }
         }
 
-        public OutlineItem RootItem
+        public OutlineItemCollection Items
         {
-            get { return _rootItem; }
+            get { return _items; }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -60,7 +60,7 @@ namespace SimpleOutline.Models
 
             FileName = fileName;
 
-            _rootItem = new OutlineItem("Root Item");
+            _items = new OutlineItemCollection();
         }
 
         public OutlineDocument()
