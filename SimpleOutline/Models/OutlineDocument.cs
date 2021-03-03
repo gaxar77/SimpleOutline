@@ -5,10 +5,17 @@ using System.Xml.Linq;
 
 namespace SimpleOutline.Models
 {
+    public enum OutlineDocumentState
+    {
+        NewDocument,
+        LoadedDocument,
+        SavedDocument
+    }
     public class OutlineDocument : INotifyPropertyChanged
     {
         private string _fileName;
         private OutlineItemCollection _items;
+        private OutlineDocumentState _state;
 
         public string FileName
         {
@@ -22,6 +29,18 @@ namespace SimpleOutline.Models
                 _fileName = value;
 
                 OnPropertyChanged(nameof(FileName));
+            }
+        }
+
+        public OutlineDocumentState State
+        {
+            get { return _state; }
+
+            set
+            {
+                _state = value;
+
+                OnPropertyChanged(nameof(State));
             }
         }
 
@@ -47,12 +66,14 @@ namespace SimpleOutline.Models
             FileName = fileName;
 
             _items = new OutlineItemCollection();
+
+            State = OutlineDocumentState.NewDocument;
         }
 
         public OutlineDocument()
             : this("Untitled.sof")
         {
-
+        
         }
 
         public XElement ToXmlElement()
@@ -138,8 +159,23 @@ namespace SimpleOutline.Models
             var thisOutlineDocument = OutlineDocument.CreateFromXmlDocument(xmlDocument);
 
             thisOutlineDocument.FileName = fileName;
+            thisOutlineDocument.State = OutlineDocumentState.LoadedDocument;
 
             return thisOutlineDocument;
+        }
+
+        public void Save()
+        {
+            Save(FileName);
+        }
+
+        public void Save(string fileName)
+        {
+            var xmlDocument = ToXmlDocument();
+            xmlDocument.Save(fileName);
+
+            FileName = fileName;
+            State = OutlineDocumentState.SavedDocument;
         }
     }
 }

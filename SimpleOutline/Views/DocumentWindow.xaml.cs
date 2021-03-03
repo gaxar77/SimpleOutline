@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SimpleOutline.ViewModels;
+using SimpleOutline.Models;
 
 namespace SimpleOutline.Views
 {
@@ -22,6 +24,13 @@ namespace SimpleOutline.Views
         public DocumentWindow()
         {
             InitializeComponent();
+        }
+
+        private void outlineTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var viewModel = (ViewModel1)DataContext;
+
+            viewModel.SelectedItem = (OutlineItem)e.NewValue;
         }
     }
 }

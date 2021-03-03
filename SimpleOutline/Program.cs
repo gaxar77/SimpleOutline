@@ -43,6 +43,10 @@ namespace SimpleOutline
                     viewModel.LoadEmptyDocument();
                 }
             }
+            else
+            {
+                viewModel.LoadEmptyDocument();
+            }
 
             var mainWindow = new DocumentWindow();
             mainWindow.DataContext = viewModel;

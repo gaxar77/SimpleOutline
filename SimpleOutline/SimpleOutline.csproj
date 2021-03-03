@@ -57,6 +57,18 @@
     <Compile Include="Models\OutlineItemCollection.cs" />
     <Compile Include="Models\OutlineItemCollectionClipboardAdapter.cs" />
     <Compile Include="ValueConverters\DocumentFileNameToApplicationTitleBarCaptionConverter.cs" />
+    <Compile Include="ViewModels\CommandBase.cs" />
+    <Compile Include="ViewModels\InsertOutlineItemCommand.cs" />
+    <Compile Include="ViewModels\NewDocumentCommand.cs" />
+    <Compile Include="Misc\NotifyableBase.cs" />
+    <Compile Include="ViewModels\OpenDocumentCommand.cs" />
+    <Compile Include="ViewModels\SaveDocumentAsCommand.cs" />
+    <Compile Include="ViewModels\SaveDocumentCommand.cs" />
+    <Compile Include="ViewModels\SimpleOutlineFileDialogConstants.cs" />
+    <Compile Include="ViewModels\UndoableCommand.cs" />
+    <Compile Include="ViewModels\UndoableCommandForView.cs" />
+    <Compile Include="ViewModels\UndoableCommandManager.cs" />
+    <Compile Include="ViewModels\UndoCommand.cs" />
     <Compile Include="ViewModels\ViewModel1.cs" />
     <Compile Include="Views\DocumentWindow.xaml.cs">
       <DependentUpon>DocumentWindow.xaml</DependentUpon>

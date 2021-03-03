@@ -1,22 +1,49 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Xml.Linq;
-using System.Windows;
-using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
 using SimpleOutline.Models;
 using System.Windows.Input;
+using SimpleOutline.Misc;
 
 namespace SimpleOutline.ViewModels
 {
-    public class ViewModel1
+    public class ViewModel1 : NotifyableBase
     {
+        private OutlineItem _selectedItem;
         public OutlineDocument Document { get; private set; }
         public ICommand NewDocumentCommand { get; private set; }
+        public ICommand OpenDocumentCommand { get; private set; }
+        public ICommand SaveDocumentCommand { get; private set; }
+        public ICommand SaveDocumentAsCommand { get; private set; }
+        public ICommand InsertItemCommand { get; private set; }
+        public ICommand UndoCommand { get; private set; }
+        public UndoableCommandManager CommandManager { get; private set; }
+        public OutlineItem SelectedItem
+        {
+            get { return _selectedItem; }
+
+            set
+            {
+                if (_selectedItem != value)
+                {
+                    _selectedItem = value;
+
+                    OnPropertyChanged(nameof(SelectedItem));
+                }
+            }
+        }
         public ViewModel1()
         {
+            CommandManager = new UndoableCommandManager(this);
+
             NewDocumentCommand = new NewDocumentCommand(this);
+            OpenDocumentCommand = new OpenDocumentCommand(this);
+            SaveDocumentCommand = new SaveDocumentCommand(this);
+            SaveDocumentAsCommand = new SaveDocumentAsCommand(this);
+
+            UndoCommand = new UndoCommand(this);
+
+            InsertItemCommand = new UndoableCommandForView<InsertOutlineItemCommand>(this);
         }
-           
+
         public void LoadDocument(string fileName)
         {
             Document = OutlineDocument.Load(fileName);
@@ -25,42 +52,6 @@ namespace SimpleOutline.ViewModels
         public void LoadEmptyDocument()
         {
             Document = new OutlineDocument();
-        }
-    }
-
-    public class NewDocumentCommand : CommandBase
-    {
-        public NewDocumentCommand(ViewModel1 viewModel)
-        {
-            this.ViewModel = viewModel;
-        }
-
-        public override bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public override void Execute(object parameter)
-        {
-            Process.Start("SimpleOutline.exe");
-        }
-    }
-
-    public abstract class CommandBase : ICommand
-    {
-        public ViewModel1 ViewModel { get; protected set; }
-        
-        public event EventHandler CanExecuteChanged;
-
-        public abstract bool CanExecute(object parameter);
-
-        public abstract void Execute(object parameter);
-
-        public void OnPropertyChanged()
-        {
-            var eventArgs = new EventArgs();
-
-            CanExecuteChanged?.Invoke(this, eventArgs);
         }
     }
 }

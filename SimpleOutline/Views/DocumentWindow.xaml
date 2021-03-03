@@ -13,19 +13,23 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_New" Command="{Binding NewDocumentCommand}"/>
                 <Separator/>
-                <MenuItem Header="_Open"/>
-                <MenuItem Header="_Save"/>
-                <MenuItem Header="Save As"/>
+                <MenuItem Header="_Open" Command="{Binding OpenDocumentCommand}"/>
+                <MenuItem Header="_Save" Command="{Binding SaveDocumentCommand}"/>
+                <MenuItem Header="Save As" Command="{Binding SaveDocumentAsCommand}"/>
                 <Separator/>
                 <MenuItem Header="_Print"/>
                 <Separator/>
                 <MenuItem Header="E_xit"/>
             </MenuItem>
-            <MenuItem Header="_Edit"/>
-            <MenuItem Header="_Item"/>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="Undo" Command="{Binding Path=UndoCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_Item">
+                <MenuItem Header="Insert" Command="{Binding Path=InsertItemCommand}"/>
+            </MenuItem>
             <MenuItem Header="_Help"/>
         </Menu>
-        <TreeView Name="outlineTreeView" ItemsSource="{Binding Path=Document.Items}">
+        <TreeView Name="outlineTreeView" ItemsSource="{Binding Path=Document.Items}" SelectedItemChanged="outlineTreeView_SelectedItemChanged">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type models:OutlineItem}" ItemsSource="{Binding Items}">
                     <TextBlock Text="{Binding Path=Name}"></TextBlock>
