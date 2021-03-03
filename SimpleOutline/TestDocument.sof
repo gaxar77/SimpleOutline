@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SimpleOutlineDocument>
+	<Outline>
+		<Item Name="Greeting"/>
+		<Item Name="Thanksgiving"/>
+		<Item Name="Prayer"/>
+		<Item Name="Body">
+			<Item Name="Point 1"/>
+			<Item Name="Point 2"/>>
+			<Item Name="Point 3"/>
+		</Item>
+		<Item Name="Blessing"/>
+	</Outline>
+</SimpleOutlineDocument>

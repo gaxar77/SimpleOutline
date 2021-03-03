@@ -4,128 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using System.Collections.ObjectModel;
 using System.Xml.Linq;
-using System.Windows;
-using SimpleOutline.Attributes;
 
 namespace SimpleOutline.Models
 {
-    [UnfinishedCode]
-    public class ViewModel
-    {
-        public ObservableCollection<OutlineDocument> Documents { get; private set; }
-
-
-    }
-    [UntestedCode]
-    public class OutlineDocument : INotifyPropertyChanged
-    {
-        private string _fileName;
-        private OutlineItemCollection _items;
-
-        public string FileName
-        {
-            get { return _fileName; }
-
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException(nameof(FileName));
-
-                _fileName = value;
-
-                OnPropertyChanged(nameof(FileName));
-            }
-        }
-
-        public OutlineItemCollection Items
-        {
-            get { return _items; }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string propertyName)
-        {
-            var eventArgs = new PropertyChangedEventArgs(propertyName);
-
-            PropertyChanged?.Invoke(this, eventArgs);
-        }
-
-        public OutlineDocument(string fileName)
-        {
-            if (fileName == null)
-                throw new ArgumentNullException(nameof(fileName));
-
-            FileName = fileName;
-
-            _items = new OutlineItemCollection();
-        }
-
-        public OutlineDocument()
-            : this("Untitled.sof")
-        {
-
-        }
-    }
-    public class OutlineDecodingException : Exception
-    {
-        private const string DefaultMessage = "An error occured while trying to decode outline data.";
-        public OutlineDecodingException()
-            : base(DefaultMessage)
-        {
-
-        }
-
-        public OutlineDecodingException(Exception innerException)
-            : base(DefaultMessage, innerException)
-        {
-
-        }
-    }
-
-    [Todo("Replace with custom collection class that rejects null and duplicate items.")]
-    [Serializable]
-    public class OutlineItemCollection : ObservableCollection<OutlineItem>
-    {
-    }
-
-    public class OutlineItemCollectionClipboardAdapter
-    {
-        private DataFormat _format;
-        public DataFormat Format
-        {
-            get
-            {
-                if (_format == null)
-                {
-                    _format = DataFormats.GetDataFormat(typeof(OutlineItemCollection).FullName);
-                }
-
-                return _format;
-            }
-        }
-
-        public void SetItemCollection(OutlineItemCollection item)
-        {
-            var dataObject = new DataObject(Format.Name, item);
-            Clipboard.SetDataObject(dataObject, true);
-        }
-
-        public OutlineItemCollection GetItemCollection()
-        {
-            if (Clipboard.ContainsData(Format.Name))
-            {
-                var dataObject = Clipboard.GetDataObject();
-
-                return (OutlineItemCollection)dataObject.GetData(Format.Name);
-            }
-
-            return null;
-        }
-    }
-    [UnusedCode, UnfinishedCode, UntestedCode]
     [Serializable]
     public class OutlineItem : INotifyPropertyChanged
     {
@@ -193,7 +75,6 @@ namespace SimpleOutline.Models
             return thisItemXmlElement;
         }
 
-        [Todo("Refactor into decoder/deserializer class (whatever you want to call it).")]
         public static OutlineItem CreateFromXmlElement(XElement xmlElement)
         {
             if (xmlElement == null)
@@ -203,22 +84,22 @@ namespace SimpleOutline.Models
 
             if (xmlElement.Name != "Item")
             {
-                throw new OutlineDecodingException();
+                throw new DecodingException();
             }
 
             if (xmlElement.Attributes().SingleOrDefault(attr => attr.Name == "Name") == null)
             {
-                throw new OutlineDecodingException();
+                throw new DecodingException();
             }
 
             if (xmlElement.Attributes().SingleOrDefault(attr => attr.Name != "Name") != null)
             {
-                throw new OutlineDecodingException();
+                throw new DecodingException();
             }
 
             if (xmlElement.Elements().SingleOrDefault(elem => elem.Name != "Item") != null)
             {
-                throw new OutlineDecodingException();
+                throw new DecodingException();
             }
 
             var thisOutlineItemName = xmlElement.Attribute("Name").Value.ToString();

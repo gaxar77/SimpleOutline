@@ -41,7 +41,7 @@ namespace UnitTests
             var xmlElement = XElement.Parse(xml);
             Action createItemFromXmlElementAction = () => OutlineItem.CreateFromXmlElement(xmlElement);
 
-            Assert.ThrowsException<OutlineDecodingException>(createItemFromXmlElementAction);
+            Assert.ThrowsException<DecodingException>(createItemFromXmlElementAction);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace UnitTests
             {
                 OutlineItem.CreateFromXmlElement(xmlElement);
             }
-            catch (OutlineDecodingException)
+            catch (DecodingException)
             {
                 Assert.Fail();
             }
@@ -71,7 +71,7 @@ namespace UnitTests
 
             Action action = () => OutlineItem.CreateFromXmlElement(xmlElement);
 
-            Assert.ThrowsException<OutlineDecodingException>(action);
+            Assert.ThrowsException<DecodingException>(action);
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace UnitTests
 
             Action action = () => OutlineItem.CreateFromXmlElement(xmlElement);
 
-            Assert.ThrowsException<OutlineDecodingException>(action);
+            Assert.ThrowsException<DecodingException>(action);
         }
     }
 }

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.IO;
 using SimpleOutline.Models;
+using SimpleOutline.ValueConverters;
 using SimpleOutline.Views;
+using SimpleOutline.ViewModels;
 
 namespace SimpleOutline
 {
@@ -14,21 +17,36 @@ namespace SimpleOutline
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             var app = new Application();
+
+            if (args.Length > 1)
+            {
+                MessageBox.Show("SimpleOutline only accepts zero or one arguments.",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            var viewModel = new ViewModel1();
+            if (args.Length == 1)
+            {
+                try
+                {
+                    viewModel.LoadDocument(args[0]);
+                }
+                catch (Exception)
+                {
+                    var errorMessage = $"SimpleOutline could not load the file specified: {args[0]}";
+
+                    MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    viewModel.LoadEmptyDocument();
+                }
+            }
+
             var mainWindow = new DocumentWindow();
+            mainWindow.DataContext = viewModel;
 
-            var document = new OutlineDocument();
-            
-
-            mainWindow.DataContext = document;
-            var item = new OutlineItem("Root");
-
-            item.Items.Add(new OutlineItem("Item 1"));
-            item.Items.Add(new OutlineItem("Item 2"));
-
-            document.Items.Add(item);
             app.Run(mainWindow);
 
         }
