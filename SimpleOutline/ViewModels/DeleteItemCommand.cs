@@ -30,11 +30,24 @@ namespace SimpleOutline.ViewModels
             _deletedItem = itemToDelete;
             _parentOfDeletedItem = parentOfItemToDelete;
             _previousIndexOfDeletedItem = indexOfItemToDelete;
-        }
 
+            if (_previousIndexOfDeletedItem < _parentOfDeletedItem.Items.Count)
+            {
+                _parentOfDeletedItem.Items[_previousIndexOfDeletedItem].IsSelectedInView = true;
+            }
+            else
+            {
+                _parentOfDeletedItem.IsSelectedInView = true;
+            }
+
+            ViewModel.SetFocusOnItemsView();
+        }
         public override void Undo()
         {
             _parentOfDeletedItem.Items.Insert(_previousIndexOfDeletedItem, _deletedItem);
+            _deletedItem.IsSelectedInView = true;
+
+            ViewModel.SetFocusOnItemsView();
         }
     }
 }

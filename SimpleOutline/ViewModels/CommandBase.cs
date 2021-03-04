@@ -23,7 +23,7 @@ namespace SimpleOutline.ViewModels
 
         }
 
-        protected void OnPropertyChanged()
+        protected void OnCanExecuteChanged()
         {
             var eventArgs = new EventArgs();
 

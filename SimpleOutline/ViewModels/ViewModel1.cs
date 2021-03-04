@@ -45,7 +45,7 @@ namespace SimpleOutline.ViewModels
         public ICommand PasteCommand { get; private set; }
         public ICommand AboutCommand { get; private set; }
         public ICommand ExitCommand { get; private set; }
-        public UndoableCommandManager CommandManager { get; private set; }
+        public UndoableCommandManager UndoCommandManager { get; private set; }
 
         public OutlineItem SelectedItem
         {
@@ -63,7 +63,7 @@ namespace SimpleOutline.ViewModels
         }
         public ViewModel1()
         {
-            CommandManager = new UndoableCommandManager(this);
+            UndoCommandManager = new UndoableCommandManager(this);
 
             NewDocumentCommand = new NewDocumentCommand(this);
             OpenDocumentCommand = new OpenDocumentCommand(this);
@@ -93,6 +93,11 @@ namespace SimpleOutline.ViewModels
         public void LoadNewDocument()
         {
             Document = new OutlineDocument();
+        }
+
+        public void SetFocusOnItemsView()
+        {
+            View.outlineTreeView.Focus();
         }
     }
 }

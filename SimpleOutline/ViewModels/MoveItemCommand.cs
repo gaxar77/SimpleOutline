@@ -28,22 +28,19 @@ namespace SimpleOutline.ViewModels
             if (parentOfItemToMove == null)
                 throw new CommandFailedException();
 
-            try
-            {
-                var itemOldIndex = parentOfItemToMove.Items.IndexOf(itemToMove);
-                var itemNewIndex = itemOldIndex + bySteps;
+            var itemOldIndex = parentOfItemToMove.Items.IndexOf(itemToMove);
+            var itemNewIndex = itemOldIndex + bySteps;
 
-                parentOfItemToMove.Items.Move(itemOldIndex, itemNewIndex);
-
-                _movedItem = itemToMove;
-                _movedItemParent = parentOfItemToMove;
-                _movedItemNewIndex = itemNewIndex;
-                _movedItemOldIndex = itemOldIndex;
-            }
-            catch (ApplicationException)
-            {
+            if (itemNewIndex >= parentOfItemToMove.Items.Count ||
+                itemNewIndex < 0)
                 throw new CommandFailedException();
-            }
+
+            parentOfItemToMove.Items.Move(itemOldIndex, itemNewIndex);
+
+            _movedItem = itemToMove;
+            _movedItemParent = parentOfItemToMove;
+            _movedItemNewIndex = itemNewIndex;
+            _movedItemOldIndex = itemOldIndex;
         }
 
         public override void Undo()

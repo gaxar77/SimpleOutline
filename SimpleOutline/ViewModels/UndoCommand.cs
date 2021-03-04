@@ -11,11 +11,16 @@
         public override bool CanExecute(object parameter)
         {
             return true;
+
+            //return ViewModel.CommandManager.CanUndo;
         }
 
         public override void Execute(object parameter)
         {
-            ViewModel.CommandManager.UndoLastCommand();
+            if (ViewModel.UndoCommandManager.CanUndo)
+            {
+                ViewModel.UndoCommandManager.UndoLastCommand();
+            }
         }
     }
 }

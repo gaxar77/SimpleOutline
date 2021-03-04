@@ -19,8 +19,8 @@
         <KeyBinding Key="V" Modifiers="Ctrl" Command="{Binding Path=PasteCommand}"/>
         <KeyBinding Key="Insert" Command="{Binding Path=InsertItemCommand}"/>
         <KeyBinding Key="Del" Command="{Binding Path=DeleteItemCommand}"/>
-        <KeyBinding Key="Up" Modifiers="Ctrl" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1"/>
-        <KeyBinding Key="Down" Modifiers="Ctrl" Command="{Binding Path=MoveItemCommand}" CommandParameter="1"/>
+        <KeyBinding Key="U" Modifiers="Ctrl" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1"/>
+        <KeyBinding Key="D" Modifiers="Ctrl" Command="{Binding Path=MoveItemCommand}" CommandParameter="1"/>
         <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding Path=RenameItemCommand}"/>
     </Window.InputBindings>
     <DockPanel>
@@ -45,8 +45,8 @@
                 <MenuItem Header="Insert" Command="{Binding Path=InsertItemCommand}" InputGestureText="Insert"/>
                 <MenuItem Header="Rename" Command="{Binding Path=RenameItemCommand}" InputGestureText="Ctrl+R"/>
                 <Separator/>
-                <MenuItem Header="Move Up" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1" InputGestureText="Ctrl+Up"/>
-                <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1" InputGestureText="Ctrl+Down"/>
+                <MenuItem Header="Move Up" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1" InputGestureText="Ctrl+U"/>
+                <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1" InputGestureText="Ctrl+D"/>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="About" Command="{Binding Path=AboutCommand}"/>
