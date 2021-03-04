@@ -43,6 +43,8 @@ namespace SimpleOutline.ViewModels
         public ICommand CutCommand { get; private set; }
         public ICommand CopyCommand { get; private set; }
         public ICommand PasteCommand { get; private set; }
+        public ICommand AboutCommand { get; private set; }
+        public ICommand ExitCommand { get; private set; }
         public UndoableCommandManager CommandManager { get; private set; }
 
         public OutlineItem SelectedItem
@@ -78,6 +80,9 @@ namespace SimpleOutline.ViewModels
             CutCommand = new UndoableCommandForView<CutCommand>(this);
             CopyCommand = new CopyCommand(this);
             PasteCommand = new UndoableCommandForView<PasteCommand>(this);
+
+            AboutCommand = new AboutCommand(this);
+            ExitCommand = new ExitCommand(this);
         }
 
         public void LoadDocument(string fileName)

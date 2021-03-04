@@ -34,7 +34,7 @@
                 <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1"/>
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem Header="About" Command="{Binding Path=HelpCommand}"/>
+                <MenuItem Header="About" Command="{Binding Path=AboutCommand}"/>
             </MenuItem>
         </Menu>
         <Grid>
