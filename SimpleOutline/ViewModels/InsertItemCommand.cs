@@ -41,8 +41,6 @@ namespace SimpleOutline.ViewModels
             var newItemName = TextInputDialog.PromptUser("What do you want to name the item?", "New Outline Item", 
                 _insertedItem.Name);
 
-            //Todo: Add code to scroll to/bring into view the newly inserted item.
-
             if (newItemName != null)
             {
                 _insertedItem.Name = newItemName;
