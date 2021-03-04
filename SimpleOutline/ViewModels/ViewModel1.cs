@@ -72,7 +72,7 @@ namespace SimpleOutline.ViewModels
 
             UndoCommand = new UndoCommand(this);
 
-            InsertItemCommand = new UndoableCommandForView<InsertOutlineItemCommand>(this);
+            InsertItemCommand = new UndoableCommandForView<InsertItemCommand>(this);
             DeleteItemCommand = new UndoableCommandForView<DeleteItemCommand>(this);
             RenameItemCommand = new UndoableCommandForView<RenameOutlineItemCommand>(this);
             MoveItemCommand = new UndoableCommandForView<MoveItemCommand>(this);

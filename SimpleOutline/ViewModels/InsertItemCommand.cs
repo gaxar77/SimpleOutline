@@ -9,11 +9,11 @@ namespace SimpleOutline.ViewModels
     {
 
     }
-    public class InsertOutlineItemCommand : UndoableCommand
+    public class InsertItemCommand : UndoableCommand
     {
         OutlineItem _parentItem;
         OutlineItem _insertedItem;
-        public InsertOutlineItemCommand(ViewModel1 viewModel)
+        public InsertItemCommand(ViewModel1 viewModel)
             : base(viewModel)
         {
 
@@ -53,11 +53,17 @@ namespace SimpleOutline.ViewModels
 
                 throw new CommandFailedException();
             }
+
+            _insertedItem.IsSelectedInView = true;
+            ViewModel.SetFocusOnItemsView();
         }
 
         public override void Undo()
         {
             _parentItem.Items.Remove(_insertedItem);
+            _parentItem.IsSelectedInView = true;
+
+            ViewModel.SetFocusOnItemsView();
         }
     }
 }

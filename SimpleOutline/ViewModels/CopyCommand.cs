@@ -10,7 +10,16 @@
 
         public override void Execute(object parameter)
         {
-            ViewModel.SelectedItem.CopyToClipboard();
+            var selectedItem = ViewModel.SelectedItem;
+            if (selectedItem == null)
+                throw new CommandFailedException();
+
+            selectedItem.CopyToClipboard();
+        }
+
+        public override bool CanExecute(object parameter)
+        {
+            return true;
         }
     }
 }
