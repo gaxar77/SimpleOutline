@@ -52,11 +52,16 @@ namespace SimpleOutline.ViewModels
                 throw new CommandFailedException();
             }
 
+            _insertedItem.IsSelectedInView = true;
+            ViewModel.SetFocusOnItemsView();
         }
 
         public override void Undo()
         {
             _parentItem.Items.Remove(_insertedItem);
+            _parentItem.IsSelectedInView = true;
+
+            ViewModel.SetFocusOnItemsView();
         }
     }
 }
