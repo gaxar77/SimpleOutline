@@ -8,30 +8,45 @@
         xmlns:localValueConverters="clr-namespace:SimpleOutline.ValueConverters"
         mc:Ignorable="d"
         Title="Simple Outline 1.0" Height="450" Width="800">
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding Path=NewDocumentCommand}"/>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding Path=OpenDocumentCommand}"/>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding Path=SaveDocumentCommand}"/>
+        <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding Path=ExitCommand}"/>
+        <KeyBinding Key="Z" Modifiers="Ctrl" Command="{Binding Path=UndoCommand}"/>
+        <KeyBinding Key="X" Modifiers="Ctrl" Command="{Binding Path=CutCommand}"/>
+        <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding Path=CopyCommand}"/>
+        <KeyBinding Key="V" Modifiers="Ctrl" Command="{Binding Path=PasteCommand}"/>
+        <KeyBinding Key="Insert" Command="{Binding Path=InsertItemCommand}"/>
+        <KeyBinding Key="Del" Command="{Binding Path=DeleteItemCommand}"/>
+        <KeyBinding Key="Up" Modifiers="Ctrl" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1"/>
+        <KeyBinding Key="Down" Modifiers="Ctrl" Command="{Binding Path=MoveItemCommand}" CommandParameter="1"/>
+        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding Path=RenameItemCommand}"/>
+    </Window.InputBindings>
     <DockPanel>
         <Menu Name="mainMenu" DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New" Command="{Binding NewDocumentCommand}"/>
+                <MenuItem Header="New" Command="{Binding NewDocumentCommand}" InputGestureText="Ctrl+N"/>
                 <Separator/>
-                <MenuItem Header="_Open" Command="{Binding OpenDocumentCommand}"/>
-                <MenuItem Header="_Save" Command="{Binding SaveDocumentCommand}"/>
+                <MenuItem Header="Open" Command="{Binding OpenDocumentCommand}" InputGestureText="Ctrl+O"/>
+                <MenuItem Header="Save" Command="{Binding SaveDocumentCommand}" InputGestureText="Ctrl+S"/>
                 <MenuItem Header="Save As" Command="{Binding SaveDocumentAsCommand}"/>
                 <Separator/>
-                <MenuItem Header="E_xit" Command="{Binding ExitCommand}"/>
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}" InputGestureText="Alt+F4"/>
             </MenuItem>
             <MenuItem Header="_Edit">
-                <MenuItem Header="Undo" Command="{Binding Path=UndoCommand}"/>
+                <MenuItem Header="Undo" Command="{Binding Path=UndoCommand}" InputGestureText="Ctrl+Z"/>
                 <Separator/>
-                <MenuItem Header="Cut" Command="{Binding Path=CutCommand}"/>
-                <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}"/>
-                <MenuItem Header="Paste" Command="{Binding Path=PasteCommand}"/>
-                <MenuItem Header="Delete" Command="{Binding Path=DeleteItemCommand}"/>
+                <MenuItem Header="Cut" Command="{Binding Path=CutCommand}" InputGestureText="Ctrl+X"/>
+                <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" InputGestureText="Ctrl+C"/>
+                <MenuItem Header="Paste" Command="{Binding Path=PasteCommand}" InputGestureText="Ctrl+V"/>
+                <MenuItem Header="Delete" Command="{Binding Path=DeleteItemCommand}" InputGestureText="Del"/>
                 <Separator/>
-                <MenuItem Header="Insert" Command="{Binding Path=InsertItemCommand}"/>
-                <MenuItem Header="Rename" Command="{Binding Path=RenameItemCommand}"/>
+                <MenuItem Header="Insert" Command="{Binding Path=InsertItemCommand}" InputGestureText="Insert"/>
+                <MenuItem Header="Rename" Command="{Binding Path=RenameItemCommand}" InputGestureText="Ctrl+R"/>
                 <Separator/>
-                <MenuItem Header="Move Up" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1"/>
-                <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1"/>
+                <MenuItem Header="Move Up" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1" InputGestureText="Ctrl+Up"/>
+                <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1" InputGestureText="Ctrl+Down"/>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="About" Command="{Binding Path=AboutCommand}"/>

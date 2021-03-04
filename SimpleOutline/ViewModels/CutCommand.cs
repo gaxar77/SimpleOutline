@@ -19,16 +19,15 @@ namespace SimpleOutline.ViewModels
             if (itemToCut == null)
                 throw new CommandFailedException();
 
-            var parentOfItemToCut = itemToCut.ParentItem;
-            var indexOfItemToCut = parentOfItemToCut.Items.IndexOf(itemToCut);
-
             itemToCut.CopyToClipboard();
+            var parentOfItemToCut = itemToCut.ParentItem;
+            if (parentOfItemToCut == null)
+                throw new CommandFailedException();
 
-            if (parentOfItemToCut != null)
-            {
-                parentOfItemToCut.Items.Remove(itemToCut);
-            }
+            parentOfItemToCut.Items.Remove(itemToCut);
 
+            var indexOfItemToCut = parentOfItemToCut.Items.IndexOf(itemToCut);
+            
             _cutItem = itemToCut;
             _parentOfCutItem = parentOfItemToCut;
             _previousIndexOfCutItem = indexOfItemToCut;
