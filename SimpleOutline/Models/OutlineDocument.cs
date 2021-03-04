@@ -66,6 +66,7 @@ namespace SimpleOutline.Models
             FileName = fileName;
 
             _items = new OutlineItemCollection();
+            _items.Add(new OutlineItem("Outline"));
 
             State = OutlineDocumentState.NewDocument;
         }
@@ -124,18 +125,16 @@ namespace SimpleOutline.Models
 
             var xmlOutlineElement = xmlElement.Element("Outline");
 
-            if (xmlOutlineElement.Elements().Any(e => e.Name != "Item"))
+            if (xmlOutlineElement.Elements("Item").Count() != 1)
             {
                 throw new DecodingException();
             }
 
             var thisOutlineDocument = new OutlineDocument();
 
-            foreach (var itemXmlElement in xmlOutlineElement.Elements("Item"))
-            {
-                var outlineItem = OutlineItem.CreateFromXmlElement(itemXmlElement);
-                thisOutlineDocument.Items.Add(outlineItem);
-            }
+            var rootItemXmlElement = xmlOutlineElement.Element("Item");
+            var rootOutlineItem = OutlineItem.CreateFromXmlElement(rootItemXmlElement);
+            thisOutlineDocument.Items[0] = rootOutlineItem;
 
             return thisOutlineDocument;
         }

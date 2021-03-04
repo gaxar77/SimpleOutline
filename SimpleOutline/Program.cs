@@ -40,12 +40,12 @@ namespace SimpleOutline
 
                     MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                    viewModel.LoadEmptyDocument();
+                    return;
                 }
             }
             else
             {
-                viewModel.LoadEmptyDocument();
+                viewModel.LoadNewDocument();
             }
 
             var mainWindow = new DocumentWindow();
@@ -53,7 +53,6 @@ namespace SimpleOutline
             viewModel.View = mainWindow;
 
             app.Run(mainWindow);
-
         }
     }
 }

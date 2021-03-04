@@ -16,7 +16,7 @@
             base.Execute(parameter);
         }
 
-        public virtual void Undo(object parameter)
+        public virtual void Undo()
         {
 
         }

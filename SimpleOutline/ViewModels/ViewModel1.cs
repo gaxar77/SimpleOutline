@@ -35,8 +35,14 @@ namespace SimpleOutline.ViewModels
         public ICommand SaveDocumentCommand { get; private set; }
         public ICommand SaveDocumentAsCommand { get; private set; }
         public ICommand InsertItemCommand { get; private set; }
+        public ICommand DeleteItemCommand { get; private set; }
         public ICommand RenameItemCommand { get; private set; }
+
+        public ICommand MoveItemCommand { get; private set; }
         public ICommand UndoCommand { get; private set; }
+        public ICommand CutCommand { get; private set; }
+        public ICommand CopyCommand { get; private set; }
+        public ICommand PasteCommand { get; private set; }
         public UndoableCommandManager CommandManager { get; private set; }
 
         public OutlineItem SelectedItem
@@ -65,7 +71,13 @@ namespace SimpleOutline.ViewModels
             UndoCommand = new UndoCommand(this);
 
             InsertItemCommand = new UndoableCommandForView<InsertOutlineItemCommand>(this);
+            DeleteItemCommand = new UndoableCommandForView<DeleteItemCommand>(this);
             RenameItemCommand = new UndoableCommandForView<RenameOutlineItemCommand>(this);
+            MoveItemCommand = new UndoableCommandForView<MoveItemCommand>(this);
+
+            CutCommand = new UndoableCommandForView<CutCommand>(this);
+            CopyCommand = new CopyCommand(this);
+            PasteCommand = new UndoableCommandForView<PasteCommand>(this);
         }
 
         public void LoadDocument(string fileName)
@@ -73,7 +85,7 @@ namespace SimpleOutline.ViewModels
             Document = OutlineDocument.Load(fileName);
         }
 
-        public void LoadEmptyDocument()
+        public void LoadNewDocument()
         {
             Document = new OutlineDocument();
         }

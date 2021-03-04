@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Xml.Linq;
+using System.Collections.Specialized;
+using System.Windows;
 
 namespace SimpleOutline.Models
 {
@@ -13,7 +15,14 @@ namespace SimpleOutline.Models
     {
         private string _name;
         private OutlineItemCollection _items;
+
+        [NonSerialized]
+        private OutlineItem _parent;
+
+        [NonSerialized]
         private bool _isSelectedInView;
+        
+        [NonSerialized]
         private bool _isExpandedInView;
         public string Name
         {
@@ -79,6 +88,15 @@ namespace SimpleOutline.Models
             }
         }
 
+        public OutlineItem ParentItem
+        {
+            get { return _parent; }
+
+            private set
+            {
+                _parent = value;
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -91,8 +109,33 @@ namespace SimpleOutline.Models
 
             Items = new OutlineItemCollection();
 
+            Items.CollectionChanged += Items_CollectionChanged;
             IsExpandedInView = true;
         }
+
+        private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (OutlineItem item in e.NewItems)
+                {
+                    if (item.ParentItem != null)
+                    {
+                        item.ParentItem.Items.Remove(item);
+                    }
+
+                    item.ParentItem = this;
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                foreach (OutlineItem item in e.OldItems)
+                {
+                    item.ParentItem = null;
+                }
+            }
+        }
+
         public void OnPropertyChanged(string propertyName)
         {
             var eventArgs = new PropertyChangedEventArgs(propertyName);
@@ -149,6 +192,51 @@ namespace SimpleOutline.Models
             }
 
             return thisOutlineItem;
+        }
+
+        public static OutlineItem LoadFromClipboard()
+        {
+            if (Clipboard.ContainsText())
+            {
+                var clipboardText = Clipboard.GetText();
+
+                try
+                {
+                    var xmlElement = XElement.Parse(clipboardText);
+
+                    var item = OutlineItem.CreateFromXmlElement(xmlElement);
+
+                    return item;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+
+            return null;
+            /*
+            var clipboardAdapter = new OutlineItemCollectionClipboardAdapter();
+            var itemCollection = clipboardAdapter.GetItemCollection();
+
+            if (itemCollection != null && itemCollection.Count > 0)
+            {
+                return itemCollection[0];
+            }
+
+            return null;*/
+        }
+
+        public void CopyToClipboard()
+        {
+            Clipboard.SetText(this.ToXmlElement().ToString());
+
+            /*
+            var itemCollection = new OutlineItemCollection();
+            itemCollection.Add(this);
+
+            var clipboardAdapter = new OutlineItemCollectionClipboardAdapter();
+            clipboardAdapter.SetItemCollection(itemCollection);*/
         }
     }
 }

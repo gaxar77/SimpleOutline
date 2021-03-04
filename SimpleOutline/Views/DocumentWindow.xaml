@@ -17,31 +17,47 @@
                 <MenuItem Header="_Save" Command="{Binding SaveDocumentCommand}"/>
                 <MenuItem Header="Save As" Command="{Binding SaveDocumentAsCommand}"/>
                 <Separator/>
-                <MenuItem Header="_Print"/>
-                <Separator/>
-                <MenuItem Header="E_xit"/>
+                <MenuItem Header="E_xit" Command="{Binding ExitCommand}"/>
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="Undo" Command="{Binding Path=UndoCommand}"/>
-            </MenuItem>
-            <MenuItem Header="_Item">
+                <Separator/>
+                <MenuItem Header="Cut" Command="{Binding Path=CutCommand}"/>
+                <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}"/>
+                <MenuItem Header="Paste" Command="{Binding Path=PasteCommand}"/>
+                <MenuItem Header="Delete" Command="{Binding Path=DeleteItemCommand}"/>
+                <Separator/>
                 <MenuItem Header="Insert" Command="{Binding Path=InsertItemCommand}"/>
                 <MenuItem Header="Rename" Command="{Binding Path=RenameItemCommand}"/>
+                <Separator/>
+                <MenuItem Header="Move Up" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1"/>
+                <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1"/>
             </MenuItem>
-            <MenuItem Header="_Help"/>
+            <MenuItem Header="_Help">
+                <MenuItem Header="About" Command="{Binding Path=HelpCommand}"/>
+            </MenuItem>
         </Menu>
-        <TreeView Name="outlineTreeView" ItemsSource="{Binding Path=Document.Items}" SelectedItemChanged="outlineTreeView_SelectedItemChanged">
-            <TreeView.Resources>
-                <Style TargetType="TreeViewItem">
-                    <Setter Property="IsSelected" Value="{Binding Path=IsSelectedInView, Mode=TwoWay}"/>
-                    <Setter Property="IsExpanded" Value="{Binding Path=IsExpandedInView, Mode=TwoWay}"/>
-                </Style>
-            </TreeView.Resources>
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type models:OutlineItem}" ItemsSource="{Binding Items}">
-                    <TextBlock Text="{Binding Path=Name}"></TextBlock>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border BorderThickness="1" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}">
+                <TextBlock Name="fileNameTextBox" Margin="5" Grid.Row="0" Text="{Binding Document.FileName}"/>
+            </Border>
+            <TreeView Name="outlineTreeView" ItemsSource="{Binding Path=Document.Items}" Grid.Row="1" SelectedItemChanged="outlineTreeView_SelectedItemChanged">
+                <TreeView.Resources>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="IsSelected" Value="{Binding Path=IsSelectedInView, Mode=TwoWay}"/>
+                        <Setter Property="IsExpanded" Value="{Binding Path=IsExpandedInView, Mode=TwoWay}"/>
+                    </Style>
+                </TreeView.Resources>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type models:OutlineItem}" ItemsSource="{Binding Items}">
+                        <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Grid>
     </DockPanel>
 </Window>
