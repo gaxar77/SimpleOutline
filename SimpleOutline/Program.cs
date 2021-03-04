@@ -50,6 +50,7 @@ namespace SimpleOutline
 
             var mainWindow = new DocumentWindow();
             mainWindow.DataContext = viewModel;
+            viewModel.View = mainWindow;
 
             app.Run(mainWindow);
 

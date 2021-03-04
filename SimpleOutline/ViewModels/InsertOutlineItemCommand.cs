@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using SimpleOutline.Models;
@@ -78,7 +79,15 @@ namespace SimpleOutline.ViewModels
                 ViewModel.Document.Items.Add(_insertedItem);
             }
 
-            _insertedItem.IsSelectedInView = true;
+            var newItemName = TextInputDialog.PromptUser("What do you want to name the item?", "New Outline Item", 
+                _insertedItem.Name);
+
+            //Todo: Add code to scroll to/bring into view the newly inserted item.
+
+            if (newItemName != null)
+            {
+                _insertedItem.Name = newItemName;
+            }
         }
 
         public override void Undo(object parameter)

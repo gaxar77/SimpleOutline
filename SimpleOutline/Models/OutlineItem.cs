@@ -72,6 +72,9 @@ namespace SimpleOutline.Models
                     _isExpandedInView = value;
 
                     OnPropertyChanged(nameof(IsExpandedInView));
+
+                    if (!IsExpandedInView)
+                        IsExpandedInView = true;
                 }
             }
         }
@@ -87,6 +90,8 @@ namespace SimpleOutline.Models
             Name = name;
 
             Items = new OutlineItemCollection();
+
+            IsExpandedInView = true;
         }
         public void OnPropertyChanged(string propertyName)
         {
