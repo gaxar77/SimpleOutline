@@ -96,5 +96,14 @@ namespace SimpleOutline.ViewModels
         {
             View.outlineTreeView.Focus();
         }
+
+        public void RenameItem(OutlineItem item, string newName)
+        {
+            var renameCommand = new RenameItemCommand(this);
+            renameCommand.Item = item;
+            renameCommand.NewName = newName;
+
+            UndoCommandManager.ExecuteCommand(renameCommand, null);
+        }
     }
 }

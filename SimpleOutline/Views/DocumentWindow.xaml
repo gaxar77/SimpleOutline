@@ -8,6 +8,19 @@
         xmlns:localValueConverters="clr-namespace:SimpleOutline.ValueConverters"
         mc:Ignorable="d"
         Title="Simple Outline 1.0" Height="450" Width="800">
+    <Window.Resources>
+        <ContextMenu x:Key="itemContextMenu" Opened="ContextMenu_Opened">
+            <MenuItem Header="Cut" InputGestureText="Ctrl+X" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Copy" InputGestureText="Ctrl+C" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Paste" InputGestureText="Ctrl+V" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Delete" InputGestureText="Del" Click="ContextMenuItem_Click"/>
+            <Separator/>
+            <MenuItem Header="Insert" InputGestureText="Insert" Click="ContextMenuItem_Click"/>
+            <Separator/>
+            <MenuItem Header="Move Up" InputGestureText="Ctrl+U" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Move Down" InputGestureText="Ctrl+D" Click="ContextMenuItem_Click"/>
+        </ContextMenu>
+    </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding Path=NewDocumentCommand}"/>
         <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding Path=OpenDocumentCommand}"/>
@@ -64,15 +77,20 @@
                     <Style TargetType="TreeViewItem">
                         <Setter Property="IsSelected" Value="{Binding Path=IsSelectedInView, Mode=TwoWay}"/>
                         <Setter Property="IsExpanded" Value="{Binding Path=IsExpandedInView, Mode=TwoWay}"/>
+                        <Setter Property="ContextMenu" Value="{StaticResource ResourceKey=itemContextMenu}"/>
                         <EventSetter Event="Unselected" Handler="TreeViewItem_Unselected"/>
                     </Style>
                     <localValueConverters:IsItemBeingEditedUIElementVisibilityValueConverter x:Key="isItemBeingEditedUIElementVisibilityConverter"/>
+                    
                 </TreeView.Resources>
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type models:OutlineItem}" ItemsSource="{Binding Items}">
                         <StackPanel Orientation="Horizontal" Margin="5">
                             <Rectangle Width="16" Height="16" Fill="AliceBlue"/>
-                            <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Text="{Binding Path=Name, Mode=OneWay}" 
+                                     Keyboard.KeyDown="TreeViewItem_TextBox_KeyDown"
+                                     TextChanged="TreeViewItem_TextBox_TextChanged"
+                                     GotFocus="TreeViewItem_TextBox_GotFocus"/>
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
