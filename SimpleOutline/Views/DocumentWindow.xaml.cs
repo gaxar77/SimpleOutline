@@ -32,5 +32,15 @@ namespace SimpleOutline.Views
 
             viewModel.SelectedItem = (OutlineItem)e.NewValue;
         }
+
+        private void TreeViewItem_Unselected(object sender, RoutedEventArgs e)
+        {
+            /*
+            var treeViewItem = (TreeViewItem)sender;
+            var editField = (TextBox)treeViewItem.
+
+            FocusManager.SetFocusedElement(FocusManager.GetFocusScope(editField), null);
+            Keyboard.ClearFocus();*/
+        }
     }
 }

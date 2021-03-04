@@ -43,7 +43,6 @@
                 <MenuItem Header="Delete" Command="{Binding Path=DeleteItemCommand}" InputGestureText="Del"/>
                 <Separator/>
                 <MenuItem Header="Insert" Command="{Binding Path=InsertItemCommand}" InputGestureText="Insert"/>
-                <MenuItem Header="Rename" Command="{Binding Path=RenameItemCommand}" InputGestureText="Ctrl+R"/>
                 <Separator/>
                 <MenuItem Header="Move Up" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1" InputGestureText="Ctrl+U"/>
                 <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1" InputGestureText="Ctrl+D"/>
@@ -65,11 +64,16 @@
                     <Style TargetType="TreeViewItem">
                         <Setter Property="IsSelected" Value="{Binding Path=IsSelectedInView, Mode=TwoWay}"/>
                         <Setter Property="IsExpanded" Value="{Binding Path=IsExpandedInView, Mode=TwoWay}"/>
+                        <EventSetter Event="Unselected" Handler="TreeViewItem_Unselected"/>
                     </Style>
+                    <localValueConverters:IsItemBeingEditedUIElementVisibilityValueConverter x:Key="isItemBeingEditedUIElementVisibilityConverter"/>
                 </TreeView.Resources>
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type models:OutlineItem}" ItemsSource="{Binding Items}">
-                        <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Rectangle Width="16" Height="16" Fill="AliceBlue"/>
+                            <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>

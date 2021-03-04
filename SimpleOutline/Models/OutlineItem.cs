@@ -24,6 +24,10 @@ namespace SimpleOutline.Models
         
         [NonSerialized]
         private bool _isExpandedInView;
+
+        [NonSerialized]
+        private bool _isBeingEditedInView;
+
         public string Name
         {
             get { return _name; }
@@ -87,6 +91,22 @@ namespace SimpleOutline.Models
                 }
             }
         }
+
+        public bool IsBeingEditedInView
+        {
+            get { return _isBeingEditedInView; }
+
+            set
+            {
+                if (_isBeingEditedInView != value)
+                {
+                    _isBeingEditedInView = value;
+
+                    OnPropertyChanged(nameof(IsBeingEditedInView));
+                }
+            }
+        }
+
 
         public OutlineItem ParentItem
         {

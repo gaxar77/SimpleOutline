@@ -36,8 +36,6 @@ namespace SimpleOutline.ViewModels
         public ICommand SaveDocumentAsCommand { get; private set; }
         public ICommand InsertItemCommand { get; private set; }
         public ICommand DeleteItemCommand { get; private set; }
-        public ICommand RenameItemCommand { get; private set; }
-
         public ICommand MoveItemCommand { get; private set; }
         public ICommand UndoCommand { get; private set; }
         public ICommand CutCommand { get; private set; }
@@ -74,7 +72,6 @@ namespace SimpleOutline.ViewModels
 
             InsertItemCommand = new UndoableCommandForView<InsertItemCommand>(this);
             DeleteItemCommand = new UndoableCommandForView<DeleteItemCommand>(this);
-            RenameItemCommand = new UndoableCommandForView<RenameOutlineItemCommand>(this);
             MoveItemCommand = new UndoableCommandForView<MoveItemCommand>(this);
 
             CutCommand = new UndoableCommandForView<CutCommand>(this);
