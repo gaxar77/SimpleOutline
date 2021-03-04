@@ -17,11 +17,18 @@ namespace SimpleOutline.ViewModels
         //Executes and stores command.
         public void ExecuteCommand(UndoableCommand command)
         {
-            command.Execute(null);
+            try
+            {
+                command.Execute(null);
 
-            _commands.Push(command);
+                _commands.Push(command);
 
-            OnPropertyChanged(nameof(CanUndo));
+                OnPropertyChanged(nameof(CanUndo));
+            }
+            catch (CommandFailedException)
+            {
+
+            }
         }
 
         public void UndoLastCommand()

@@ -26,10 +26,17 @@
             </MenuItem>
             <MenuItem Header="_Item">
                 <MenuItem Header="Insert" Command="{Binding Path=InsertItemCommand}"/>
+                <MenuItem Header="Rename" Command="{Binding Path=RenameItemCommand}"/>
             </MenuItem>
             <MenuItem Header="_Help"/>
         </Menu>
         <TreeView Name="outlineTreeView" ItemsSource="{Binding Path=Document.Items}" SelectedItemChanged="outlineTreeView_SelectedItemChanged">
+            <TreeView.Resources>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsSelected" Value="{Binding Path=IsSelectedInView, Mode=TwoWay}"/>
+                    <Setter Property="IsExpanded" Value="{Binding Path=IsExpandedInView, Mode=TwoWay}"/>
+                </Style>
+            </TreeView.Resources>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type models:OutlineItem}" ItemsSource="{Binding Items}">
                     <TextBlock Text="{Binding Path=Name}"></TextBlock>

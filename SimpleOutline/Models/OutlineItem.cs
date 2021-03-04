@@ -13,7 +13,8 @@ namespace SimpleOutline.Models
     {
         private string _name;
         private OutlineItemCollection _items;
-
+        private bool _isSelectedInView;
+        private bool _isExpandedInView;
         public string Name
         {
             get { return _name; }
@@ -40,9 +41,41 @@ namespace SimpleOutline.Models
                     throw new ArgumentNullException(nameof(Items));
                 }
 
+
                 _items = value;
             }
         }
+
+        public bool IsSelectedInView
+        {
+            get { return _isSelectedInView; }
+
+            set
+            {
+                if (_isSelectedInView != value)
+                {
+                    _isSelectedInView = value;
+
+                    OnPropertyChanged(nameof(IsSelectedInView));
+                }
+            }
+        }
+
+        public bool IsExpandedInView
+        {
+            get { return _isExpandedInView; }
+
+            set
+            {
+                if (_isExpandedInView != value)
+                {
+                    _isExpandedInView = value;
+
+                    OnPropertyChanged(nameof(IsExpandedInView));
+                }
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
