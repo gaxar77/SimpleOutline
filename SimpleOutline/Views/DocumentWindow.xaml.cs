@@ -21,9 +21,21 @@ namespace SimpleOutline.Views
     /// </summary>
     public partial class DocumentWindow : Window
     {
+        public ViewModel1 ViewModel
+        {
+            get { return (ViewModel1)DataContext; }
+            set { DataContext = value; }
+        }
         public DocumentWindow()
         {
             InitializeComponent();
+
+            this.Loaded += DocumentWindow_Loaded;
+        }
+
+        private void DocumentWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            insertAsLastSubTopicRadioButton.IsChecked = true;
         }
 
         private void outlineTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -67,7 +79,7 @@ namespace SimpleOutline.Views
                     viewModel.CopyCommand.Execute(null);
                     break;
                 case "Paste":
-                    viewModel.PasteCommand.Execute(null);
+                    viewModel.InsertItemCommand.Execute("FromClipboard");
                     break;
                 case "Delete":
                     viewModel.DeleteItemCommand.Execute(null);
@@ -180,6 +192,26 @@ namespace SimpleOutline.Views
             }
 
             return null;
+        }
+
+        private void insertAsFirstSubTopicRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ItemInsertionMode = OutlineItemInsertionMode.InsertAsFirstChild;
+        }
+
+        private void insertAsLastSubTopicRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ItemInsertionMode = OutlineItemInsertionMode.InsertAsLastChild;
+        }
+
+        private void insertAsNextTopicRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ItemInsertionMode = OutlineItemInsertionMode.InsertAsNextSibling;
+        }
+
+        private void insertAsPreviousTopicRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ItemInsertionMode = OutlineItemInsertionMode.InsertAsPreviousSibling;
         }
     }
 }

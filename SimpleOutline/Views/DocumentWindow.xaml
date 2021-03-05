@@ -29,7 +29,7 @@
         <KeyBinding Key="Z" Modifiers="Ctrl" Command="{Binding Path=UndoCommand}"/>
         <KeyBinding Key="X" Modifiers="Ctrl" Command="{Binding Path=CutCommand}"/>
         <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding Path=CopyCommand}"/>
-        <KeyBinding Key="V" Modifiers="Ctrl" Command="{Binding Path=PasteCommand}"/>
+        <KeyBinding Key="V" Modifiers="Ctrl" Command="{Binding Path=InsertItemCommand}" CommandParameter="FromClipboard"/>
         <KeyBinding Key="Insert" Command="{Binding Path=InsertItemCommand}"/>
         <KeyBinding Key="Del" Command="{Binding Path=DeleteItemCommand}"/>
         <KeyBinding Key="U" Modifiers="Ctrl" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1"/>
@@ -52,7 +52,7 @@
                 <Separator/>
                 <MenuItem Header="Cut" Command="{Binding Path=CutCommand}" InputGestureText="Ctrl+X"/>
                 <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" InputGestureText="Ctrl+C"/>
-                <MenuItem Header="Paste" Command="{Binding Path=PasteCommand}" InputGestureText="Ctrl+V"/>
+                <MenuItem Header="Paste" Command="{Binding Path=InsertItemCommand}" CommandParameter="FromClipboard" InputGestureText="Ctrl+V"/>
                 <MenuItem Header="Delete" Command="{Binding Path=DeleteItemCommand}" InputGestureText="Del"/>
                 <Separator/>
                 <MenuItem Header="Insert" Command="{Binding Path=InsertItemCommand}" InputGestureText="Insert"/>
@@ -69,6 +69,10 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
             <Border BorderThickness="1" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}">
                 <TextBlock Name="fileNameTextBox" Margin="5" Grid.Row="0" Text="{Binding Document.FileName}"/>
             </Border>
@@ -83,7 +87,7 @@
                         <EventSetter Event="Unselected" Handler="TreeViewItem_Unselected"/>
                     </Style>
                     <localValueConverters:IsItemBeingEditedUIElementVisibilityValueConverter x:Key="isItemBeingEditedUIElementVisibilityConverter"/>
-                    
+
                 </TreeView.Resources>
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type models:OutlineItem}" ItemsSource="{Binding Items}">
@@ -103,6 +107,24 @@
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
+            <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" BorderThickness="1" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}"
+                    Width="200">
+                <StackPanel Orientation="Vertical" Background="{x:Static SystemColors.ControlLightBrush}">
+                    <StackPanel Orientation="Vertical">
+                        <Border Background="LightBlue">
+                            <TextBlock Margin="5">Insert Topics As</TextBlock>
+                        </Border>
+                        <Border Background="AliceBlue">
+                            <StackPanel Margin="5" Orientation="Vertical">
+                                <RadioButton GroupName="insertOption" Name="insertAsFirstSubTopicRadioButton" Checked="insertAsFirstSubTopicRadioButton_Checked">First Sub Topic</RadioButton>
+                                <RadioButton GroupName="insertOption" Name="insertAsLastSubTopicRadioButton" Checked="insertAsLastSubTopicRadioButton_Checked">Last Sub Topic</RadioButton>
+                                <RadioButton GroupName="insertOption" Name="insertAsNextTopicRadioButton" Checked="insertAsNextTopicRadioButton_Checked">Next Topic</RadioButton>
+                                <RadioButton GroupName="insertOption" Name="insertAsPreviousTopicRadioButton" Checked="insertAsPreviousTopicRadioButton_Checked">Previous Topic</RadioButton>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
         </Grid>
     </DockPanel>
 </Window>

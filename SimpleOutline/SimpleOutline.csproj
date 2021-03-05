@@ -69,7 +69,6 @@
     <Compile Include="ViewModels\NewDocumentCommand.cs" />
     <Compile Include="Misc\NotifyableBase.cs" />
     <Compile Include="ViewModels\OpenDocumentCommand.cs" />
-    <Compile Include="ViewModels\PasteCommand.cs" />
     <Compile Include="ViewModels\SaveDocumentAsCommand.cs" />
     <Compile Include="ViewModels\SaveDocumentCommand.cs" />
     <Compile Include="ViewModels\SimpleOutlineFileDialogConstants.cs" />

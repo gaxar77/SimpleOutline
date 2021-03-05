@@ -11,11 +11,19 @@ using System;
 namespace SimpleOutline.ViewModels
 {
     //Todo: Implement necessary expansion and updating of selection of items in the view upon the execution of every item command.
+    public enum OutlineItemInsertionMode
+    {
+        InsertAsFirstChild,
+        InsertAsLastChild,
+        InsertAsPreviousSibling,
+        InsertAsNextSibling
+    }
     public class ViewModel1 : NotifyableBase
     {
         private OutlineItem _selectedItem;
         public DocumentWindow _view;
 
+        public OutlineItemInsertionMode ItemInsertionMode { get; set; }
         public DocumentWindow View
         {
             get { return _view; }
@@ -77,7 +85,6 @@ namespace SimpleOutline.ViewModels
 
             CutCommand = new UndoableCommandForView<CutCommand>(this);
             CopyCommand = new CopyCommand(this);
-            PasteCommand = new UndoableCommandForView<PasteCommand>(this);
 
             AboutCommand = new AboutCommand(this);
             ExitCommand = new ExitCommand(this);

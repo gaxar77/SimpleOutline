@@ -8,6 +8,7 @@ namespace SimpleOutline.ViewModels
     {
         OutlineItem _parentItem;
         OutlineItem _insertedItem;
+        OutlineItem _lastSelectedItem;
         public InsertItemCommand(ViewModel1 viewModel)
             : base(viewModel)
         {
@@ -20,17 +21,83 @@ namespace SimpleOutline.ViewModels
 
         public override void Execute(object parameter)
         {
+            _lastSelectedItem = ViewModel.SelectedItem;
             _insertedItem = new OutlineItem("New Item");
 
-            _parentItem = ViewModel.SelectedItem;
-
-            if (_parentItem != null)
+            if (parameter is string stringParameter && stringParameter == "FromClipboard")
             {
-                _parentItem.Items.Add(_insertedItem);
+                _insertedItem = OutlineItem.LoadFromClipboard();
+                if (_insertedItem == null)
+                    throw new CommandFailedException();
             }
-            else
+
+            if (ViewModel.ItemInsertionMode == OutlineItemInsertionMode.InsertAsLastChild)
             {
-                throw new CommandFailedException();
+                _parentItem = ViewModel.SelectedItem;
+
+                if (_parentItem != null)
+                {
+                    _parentItem.Items.Add(_insertedItem);
+                }
+                else
+                {
+                    throw new CommandFailedException();
+                }
+            }
+            else if (ViewModel.ItemInsertionMode == OutlineItemInsertionMode.InsertAsFirstChild)
+            {
+                _parentItem = ViewModel.SelectedItem;
+
+                if (_parentItem != null)
+                {
+                    _parentItem.Items.Insert(0, _insertedItem);
+                }
+                else
+                {
+                    throw new CommandFailedException();
+                }
+            }
+            else if (ViewModel.ItemInsertionMode == OutlineItemInsertionMode.InsertAsNextSibling)
+            {
+                _parentItem = ViewModel.SelectedItem;
+
+                if (_parentItem != null)
+                {
+                    _parentItem = _parentItem.ParentItem;
+                    if (_parentItem != null)
+                    {
+                        _parentItem.Items.Insert(_parentItem.Items.IndexOf(ViewModel.SelectedItem) + 1, _insertedItem);
+                    }
+                    else
+                    {
+                        throw new CommandFailedException();
+                    }
+                }
+                else
+                {
+                    throw new CommandFailedException();
+                }
+            }
+            else if (ViewModel.ItemInsertionMode == OutlineItemInsertionMode.InsertAsPreviousSibling)
+            {
+                _parentItem = ViewModel.SelectedItem;
+
+                if (_parentItem != null)
+                {
+                    _parentItem = _parentItem.ParentItem;
+                    if (_parentItem != null)
+                    {
+                        _parentItem.Items.Insert(_parentItem.Items.IndexOf(ViewModel.SelectedItem), _insertedItem);
+                    }
+                    else
+                    {
+                        throw new CommandFailedException();
+                    }
+                }
+                else
+                {
+                    throw new CommandFailedException();
+                }
             }
 
             _insertedItem.IsSelectedInView = true;
@@ -40,7 +107,7 @@ namespace SimpleOutline.ViewModels
         public override void Undo()
         {
             _parentItem.Items.Remove(_insertedItem);
-            _parentItem.IsSelectedInView = true;
+            _lastSelectedItem.IsSelectedInView = true;
 
             ViewModel.SetFocusOnItemsView();
         }
