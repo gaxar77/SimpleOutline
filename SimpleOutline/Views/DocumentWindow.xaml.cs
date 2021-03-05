@@ -200,6 +200,11 @@ namespace SimpleOutline.Views
             return GetTreeViewItem(outlineTreeView.ItemContainerGenerator, ((ViewModel1)DataContext).SelectedItem);
         }
 
+        public void BringItemIntoView(OutlineItem item)
+        {
+            GetTreeViewItem(outlineTreeView.ItemContainerGenerator, item).BringIntoView();
+        }
+
         private TreeViewItem GetTreeViewItem(ItemContainerGenerator generator, OutlineItem outlineItem)
         {
             var retrievedItem = generator.ContainerFromItem(outlineItem);

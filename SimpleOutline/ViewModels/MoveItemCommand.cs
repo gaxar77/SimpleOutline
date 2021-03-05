@@ -40,11 +40,15 @@ namespace SimpleOutline.ViewModels
             _movedItemParent = parentOfItemToMove;
             _movedItemNewIndex = itemNewIndex;
             _movedItemOldIndex = itemOldIndex;
+
+            ViewModel.View.BringItemIntoView(_movedItem); //Untested Code
         }
 
         public override void Undo()
         {
             _movedItemParent.Items.Move(_movedItemNewIndex, _movedItemOldIndex);
+
+            ViewModel.View.BringItemIntoView(_movedItem); //Untested Code
         }
     }
 }
