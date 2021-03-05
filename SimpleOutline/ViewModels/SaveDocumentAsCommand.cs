@@ -16,6 +16,7 @@ namespace SimpleOutline.ViewModels
 
         public override void Execute(object parameter)
         {
+            var commandParams = parameter as SaveDocumentCommandParams;
             var saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = SimpleOutlineFileDialogConstants.Filter;
             saveFileDialog.DefaultExt = SimpleOutlineFileDialogConstants.DefaultExt;
@@ -25,6 +26,11 @@ namespace SimpleOutline.ViewModels
             if (dialogResult == DialogResult.OK)
             {
                 ViewModel.Document.Save(saveFileDialog.FileName);
+                
+                if (commandParams != null)
+                {
+                    commandParams.SucceedAction();
+                }
             }
         }
     }

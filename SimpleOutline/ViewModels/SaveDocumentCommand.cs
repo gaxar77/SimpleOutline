@@ -19,15 +19,18 @@ namespace SimpleOutline.ViewModels
 
         public override void Execute(object parameter)
         {
+            var commandParams = parameter as SaveDocumentCommandParams;
             try
             {
                 if (ViewModel.Document.State != OutlineDocumentState.NewDocument)
                 {
                     ViewModel.Document.Save();
+                    if (commandParams != null)
+                        commandParams.SucceedAction();
                 }
                 else
                 {
-                    ViewModel.SaveDocumentAsCommand.Execute(null);
+                    ViewModel.SaveDocumentAsCommand.Execute(parameter);
                 }
             }
             catch (Exception)

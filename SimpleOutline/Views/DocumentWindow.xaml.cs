@@ -21,6 +21,7 @@ namespace SimpleOutline.Views
     /// </summary>
     public partial class DocumentWindow : Window
     {
+        private bool isWindowClosing = false;
         public ViewModel1 ViewModel
         {
             get { return (ViewModel1)DataContext; }
@@ -31,11 +32,18 @@ namespace SimpleOutline.Views
             InitializeComponent();
 
             this.Loaded += DocumentWindow_Loaded;
+            this.Closing += DocumentWindow_Closing;
+        }
+
+        private void DocumentWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+
+            Dispatcher.InvokeAsync(() => ViewModel.ExitCommand.Execute(null));
         }
 
         private void DocumentWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            insertAsLastSubTopicRadioButton.IsChecked = true;
         }
 
         private void outlineTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -101,6 +109,12 @@ namespace SimpleOutline.Views
                     break;
                 case "Move Out":
                     viewModel.MoveOutCommand.Execute(null);
+                    break;
+                case "Before":
+                    viewModel.InsertItemCommand.Execute("InsertBefore");
+                    break;
+                case "As Next":
+                    viewModel.InsertItemCommand.Execute("InsertAsNext");
                     break;
             }
         }
@@ -202,27 +216,6 @@ namespace SimpleOutline.Views
 
             return null;
         }
-
-        private void insertAsFirstSubTopicRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ItemInsertionMode = OutlineItemInsertionMode.InsertAsFirstChild;
-        }
-
-        private void insertAsLastSubTopicRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ItemInsertionMode = OutlineItemInsertionMode.InsertAsLastChild;
-        }
-
-        private void insertAsNextTopicRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ItemInsertionMode = OutlineItemInsertionMode.InsertAsNextSibling;
-        }
-
-        private void insertAsPreviousTopicRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ItemInsertionMode = OutlineItemInsertionMode.InsertAsPreviousSibling;
-        }
-
         private void TreeViewItem_TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             CancelItemEdit();

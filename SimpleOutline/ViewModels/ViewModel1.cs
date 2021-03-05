@@ -10,20 +10,10 @@ using System;
 
 namespace SimpleOutline.ViewModels
 {
-    //Todo: Implement necessary expansion and updating of selection of items in the view upon the execution of every item command.
-    public enum OutlineItemInsertionMode
-    {
-        InsertAsFirstChild,
-        InsertAsLastChild,
-        InsertAsPreviousSibling,
-        InsertAsNextSibling
-    }
     public class ViewModel1 : NotifyableBase
     {
         private OutlineItem _selectedItem;
         public DocumentWindow _view;
-
-        public OutlineItemInsertionMode ItemInsertionMode { get; set; }
         public DocumentWindow View
         {
             get { return _view; }
@@ -44,7 +34,6 @@ namespace SimpleOutline.ViewModels
         public ICommand SaveDocumentCommand { get; private set; }
         public ICommand SaveDocumentAsCommand { get; private set; }
         public ICommand InsertItemCommand { get; private set; }
-
         public ICommand DuplicateItemCommand { get; private set; }
         public ICommand DeleteItemCommand { get; private set; }
         public ICommand MoveItemCommand { get; private set; }

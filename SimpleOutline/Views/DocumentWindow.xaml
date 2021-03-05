@@ -18,7 +18,10 @@
             <MenuItem Header="Duplicate" InputGestureText="Ctrl+D" Click="ContextMenuItem_Click"/>
             <MenuItem Header="Delete" InputGestureText="Del" Click="ContextMenuItem_Click"/>
             <Separator/>
-            <MenuItem Header="Insert" InputGestureText="Insert" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Insert">
+                <MenuItem Header="Before" InputGestureText="Insert" Click="ContextMenuItem_Click"/>
+                <MenuItem Header="As Next" InputGestureText="Ctrl+Insert" Click="ContextMenuItem_Click"/>
+            </MenuItem>
             <Separator/>
             <MenuItem Header="Move Up" InputGestureText="Ctrl+F2" Click="ContextMenuItem_Click"/>
             <MenuItem Header="Move Down" InputGestureText="Alt+F2" Click="ContextMenuItem_Click"/>
@@ -37,6 +40,7 @@
         <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding Path=CopyCommand}"/>
         <KeyBinding Key="V" Modifiers="Ctrl" Command="{Binding Path=PasteCommand}" CommandParameter="FromClipboard"/>
         <KeyBinding Key="Insert" Command="{Binding Path=InsertItemCommand}"/>
+        <KeyBinding Key="Insert" Modifiers="Ctrl" Command="{Binding Path=InsertItemCommand}" CommandParameter="InsertAsNext"/>
         <KeyBinding Key="Del" Command="{Binding Path=DeleteItemCommand}"/>
         <KeyBinding Key="D" Modifiers="Ctrl" Command="{Binding Path=DuplicateItemCommand}"/>
         <KeyBinding Key="F2" Modifiers="Ctrl" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1"/>
@@ -65,12 +69,14 @@
                 <MenuItem Header="Duplicate" Command="{Binding Path=DuplicateItemCommand}" InputGestureText="Ctrl+D"/>
                 <MenuItem Header="Delete" Command="{Binding Path=DeleteItemCommand}" InputGestureText="Del"/>
                 <Separator/>
-                <MenuItem Header="Insert" Command="{Binding Path=InsertItemCommand}" InputGestureText="Insert"/>
-                <Separator/>
                 <MenuItem Header="Move Up" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1" InputGestureText="Ctrl+F2"/>
                 <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1" InputGestureText="Alt+F2"/>
                 <MenuItem Header="Move In" Command="{Binding Path=MoveInCommand}" InputGestureText="Ctrl+F3"/>
                 <MenuItem Header="Move Out" Command="{Binding Path=MoveOutCOmmand}" InputGestureText="Alt+F3"/>
+            </MenuItem>
+            <MenuItem Header="Insert">
+                <MenuItem Header="Before" Command="{Binding Path=InsertItemCommand}" InputGestureText="Insert"/>
+                <MenuItem Header="As Next" Command="{Binding Path=InsertItemCommand}" CommandParameter="InsertAsNext" InputGestureText="Ctrl+Insert"/>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="About" Command="{Binding Path=AboutCommand}"/>
@@ -130,10 +136,6 @@
                         </Border>
                         <Border Background="AliceBlue">
                             <StackPanel Margin="5" Orientation="Vertical">
-                                <RadioButton GroupName="insertOption" Name="insertAsFirstSubTopicRadioButton" Checked="insertAsFirstSubTopicRadioButton_Checked">First Sub Topic</RadioButton>
-                                <RadioButton GroupName="insertOption" Name="insertAsLastSubTopicRadioButton" Checked="insertAsLastSubTopicRadioButton_Checked">Last Sub Topic</RadioButton>
-                                <RadioButton GroupName="insertOption" Name="insertAsNextTopicRadioButton" Checked="insertAsNextTopicRadioButton_Checked">Next Topic</RadioButton>
-                                <RadioButton GroupName="insertOption" Name="insertAsPreviousTopicRadioButton" Checked="insertAsPreviousTopicRadioButton_Checked">Previous Topic</RadioButton>
                             </StackPanel>
                         </Border>
                     </StackPanel>
