@@ -72,7 +72,9 @@
             <Border BorderThickness="1" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}">
                 <TextBlock Name="fileNameTextBox" Margin="5" Grid.Row="0" Text="{Binding Document.FileName}"/>
             </Border>
-            <TreeView Name="outlineTreeView" ItemsSource="{Binding Path=Document.Items}" Grid.Row="1" SelectedItemChanged="outlineTreeView_SelectedItemChanged">
+            <TreeView Name="outlineTreeView" ItemsSource="{Binding Path=Document.Items}" Grid.Row="1"
+                      SelectedItemChanged="outlineTreeView_SelectedItemChanged"
+                      Keyboard.KeyDown="outlineTreeView_KeyDown">
                 <TreeView.Resources>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="IsSelected" Value="{Binding Path=IsSelectedInView, Mode=TwoWay}"/>
@@ -85,12 +87,18 @@
                 </TreeView.Resources>
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type models:OutlineItem}" ItemsSource="{Binding Items}">
-                        <StackPanel Orientation="Horizontal" Margin="5">
+                        <StackPanel Name="stackPanel" Orientation="Horizontal" Margin="5">
                             <Rectangle Width="16" Height="16" Fill="AliceBlue"/>
-                            <TextBox Text="{Binding Path=Name, Mode=OneWay}" 
-                                     Keyboard.KeyDown="TreeViewItem_TextBox_KeyDown"
-                                     TextChanged="TreeViewItem_TextBox_TextChanged"
-                                     GotFocus="TreeViewItem_TextBox_GotFocus"/>
+                            <TextBox Name="itemEditField"
+                                     Text="{Binding Path=Name, Mode=OneWay}"
+                                     GotFocus="TreeViewItem_TextBox_GotFocus"
+                                     MinWidth="100"
+                                     BorderThickness="0"
+                                     Visibility="{Binding Path=IsBeingEditedInView, Converter={StaticResource isItemBeingEditedUIElementVisibilityConverter}, ConverterParameter=NameEditField}"
+                                     KeyDown="outlineItemEditField_KeyDown"
+                                     Margin="5"/>
+                            <TextBlock Text="{Binding Path=Name}" Padding="5"
+                                       Visibility="{Binding Path=IsBeingEditedInView, Converter={StaticResource isItemBeingEditedUIElementVisibilityConverter}, ConverterParameter=NameDisplayText}"/>
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>

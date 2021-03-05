@@ -70,6 +70,12 @@ namespace SimpleOutline.Models
                     _isSelectedInView = value;
 
                     OnPropertyChanged(nameof(IsSelectedInView));
+
+                    if (!IsSelectedInView)
+                    {
+                        if (IsBeingEditedInView)
+                            IsBeingEditedInView = false;
+                    }
                 }
             }
         }
