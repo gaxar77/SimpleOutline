@@ -16,6 +16,7 @@ namespace SimpleOutline.ViewModels
         public override void Execute(object parameter)
         {
             var itemToDelete = ViewModel.SelectedItem;
+
             if (itemToDelete == null)
                 throw new CommandFailedException();
 
@@ -23,10 +24,20 @@ namespace SimpleOutline.ViewModels
             if (parentOfItemToDelete == null)
                 throw new CommandFailedException();
 
-            var indexOfItemToDelete = parentOfItemToDelete.Items.IndexOf(itemToDelete);
+            bool selectionHandled = false;
+            int indexOfItemToDelete = itemToDelete.IndexInParent();
+            if (indexOfItemToDelete == parentOfItemToDelete.Items.Count - 1)
+            {
+                ViewModel.SelectPreviousItem();
+                selectionHandled = true;
+            }
 
-            ViewModel.SelectPreviousItem();
             parentOfItemToDelete.Items.Remove(itemToDelete);
+
+            if (!selectionHandled)
+            {
+                parentOfItemToDelete.Items[indexOfItemToDelete].IsSelectedInView = true;
+            }
 
             _deletedItem = itemToDelete;
             _parentOfDeletedItem = parentOfItemToDelete;
