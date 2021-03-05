@@ -44,14 +44,20 @@ namespace SimpleOutline.ViewModels
         public ICommand SaveDocumentCommand { get; private set; }
         public ICommand SaveDocumentAsCommand { get; private set; }
         public ICommand InsertItemCommand { get; private set; }
+
+        public ICommand DuplicateItemCommand { get; private set; }
         public ICommand DeleteItemCommand { get; private set; }
         public ICommand MoveItemCommand { get; private set; }
         public ICommand UndoCommand { get; private set; }
+        public ICommand RedoCommand { get; private set; }
         public ICommand CutCommand { get; private set; }
         public ICommand CopyCommand { get; private set; }
         public ICommand PasteCommand { get; private set; }
         public ICommand AboutCommand { get; private set; }
         public ICommand ExitCommand { get; private set; }
+        
+        public ICommand MoveInCommand { get; private set; }
+        public ICommand MoveOutCommand { get; private set; }
         public UndoableCommandManager UndoCommandManager { get; private set; }
 
         public OutlineItem SelectedItem
@@ -78,13 +84,18 @@ namespace SimpleOutline.ViewModels
             SaveDocumentAsCommand = new SaveDocumentAsCommand(this);
 
             UndoCommand = new UndoCommand(this);
+            RedoCommand = new RedoCommand(this);
 
             InsertItemCommand = new UndoableCommandForView<InsertItemCommand>(this);
+            DuplicateItemCommand = new UndoableCommandForView<DuplicateItemCommand>(this);
             DeleteItemCommand = new UndoableCommandForView<DeleteItemCommand>(this);
             MoveItemCommand = new UndoableCommandForView<MoveItemCommand>(this);
+            MoveInCommand = new UndoableCommandForView<MoveItemInCommand>(this);
+            MoveOutCommand = new UndoableCommandForView<MoveItemOutCommand>(this);
 
             CutCommand = new UndoableCommandForView<CutCommand>(this);
             CopyCommand = new CopyCommand(this);
+            PasteCommand = new UndoableCommandForView<PasteCommand>(this);
 
             AboutCommand = new AboutCommand(this);
             ExitCommand = new ExitCommand(this);
@@ -138,17 +149,12 @@ namespace SimpleOutline.ViewModels
                 return;
             }
 
-            MessageBox.Show("Prev");
-
             var previousItem = SelectedItem.PreviousItem();
             if (previousItem != null)
                 previousItem.IsSelectedInView = true;
-
-            MessageBox.Show(previousItem.Name, "Previous Item");
         }
     }
 
-    //Untested Code
     public static class OutlineItemExtensions
     {
         public static int IndexInParent(this OutlineItem item)
@@ -231,6 +237,8 @@ namespace SimpleOutline.ViewModels
                 return nextSibling;
 
             var parentOfItem = item.ParentItem;
+            if (parentOfItem == null)
+                return null;
 
             return parentOfItem.NextSibling();
         }

@@ -26,28 +26,12 @@ namespace SimpleOutline.ViewModels
 
             var indexOfItemToCut = parentOfItemToCut.Items.IndexOf(itemToCut);
 
+            ViewModel.SelectPreviousItem();
             parentOfItemToCut.Items.Remove(itemToCut);
 
             _cutItem = itemToCut;
             _parentOfCutItem = parentOfItemToCut;
             _previousIndexOfCutItem = indexOfItemToCut;
-
-            if (_previousIndexOfCutItem < _parentOfCutItem.Items.Count)
-            {
-                _parentOfCutItem.Items[_previousIndexOfCutItem].IsSelectedInView = true;
-            }
-            else
-            {
-                if (_parentOfCutItem.Items.Count == 0)
-                {
-                    _parentOfCutItem.IsSelectedInView = true;
-                }
-                else
-                {
-                    var indexOfLastItemInParent = _parentOfCutItem.Items.Count - 1;
-                    _parentOfCutItem.Items[indexOfLastItemInParent].IsSelectedInView = true;
-                }
-            }
 
             ViewModel.SetFocusOnItemsView();
         }

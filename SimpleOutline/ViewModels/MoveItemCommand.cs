@@ -10,7 +10,6 @@ namespace SimpleOutline.ViewModels
         private OutlineItem _movedItem;
         private OutlineItem _movedItemParent;
 
-        MoveItemCommand _undoCommand;
         public MoveItemCommand(ViewModel1 viewModel)
             : base(viewModel)
         {

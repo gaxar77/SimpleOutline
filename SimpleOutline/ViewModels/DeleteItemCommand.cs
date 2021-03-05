@@ -25,20 +25,12 @@ namespace SimpleOutline.ViewModels
 
             var indexOfItemToDelete = parentOfItemToDelete.Items.IndexOf(itemToDelete);
 
+            ViewModel.SelectPreviousItem();
             parentOfItemToDelete.Items.Remove(itemToDelete);
 
             _deletedItem = itemToDelete;
             _parentOfDeletedItem = parentOfItemToDelete;
             _previousIndexOfDeletedItem = indexOfItemToDelete;
-
-            if (_previousIndexOfDeletedItem < _parentOfDeletedItem.Items.Count)
-            {
-                _parentOfDeletedItem.Items[_previousIndexOfDeletedItem].IsSelectedInView = true;
-            }
-            else
-            {
-                _parentOfDeletedItem.IsSelectedInView = true;
-            }
 
             ViewModel.SetFocusOnItemsView();
         }

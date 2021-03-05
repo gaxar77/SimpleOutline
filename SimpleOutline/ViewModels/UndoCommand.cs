@@ -19,7 +19,7 @@
         {
             if (ViewModel.UndoCommandManager.CanUndo)
             {
-                ViewModel.UndoCommandManager.UndoLastCommand();
+                ViewModel.UndoCommandManager.Undo();
             }
         }
     }

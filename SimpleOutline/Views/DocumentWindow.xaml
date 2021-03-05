@@ -7,18 +7,23 @@
         xmlns:models="clr-namespace:SimpleOutline.Models"
         xmlns:localValueConverters="clr-namespace:SimpleOutline.ValueConverters"
         mc:Ignorable="d"
-        Title="Simple Outline 1.0" Height="450" Width="800">
+        Title="Simple Outline 1.0" Height="450" Width="800"
+        MouseDown="Window_MouseDown"
+        LostFocus="Window_LostFocus">
     <Window.Resources>
         <ContextMenu x:Key="itemContextMenu" Opened="ContextMenu_Opened">
             <MenuItem Header="Cut" InputGestureText="Ctrl+X" Click="ContextMenuItem_Click"/>
             <MenuItem Header="Copy" InputGestureText="Ctrl+C" Click="ContextMenuItem_Click"/>
             <MenuItem Header="Paste" InputGestureText="Ctrl+V" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Duplicate" InputGestureText="Ctrl+D" Click="ContextMenuItem_Click"/>
             <MenuItem Header="Delete" InputGestureText="Del" Click="ContextMenuItem_Click"/>
             <Separator/>
             <MenuItem Header="Insert" InputGestureText="Insert" Click="ContextMenuItem_Click"/>
             <Separator/>
-            <MenuItem Header="Move Up" InputGestureText="Ctrl+U" Click="ContextMenuItem_Click"/>
-            <MenuItem Header="Move Down" InputGestureText="Ctrl+D" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Move Up" InputGestureText="Shift+U" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Move Down" InputGestureText="Shift+D" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Move In" InputGestureText="Shift+I" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Move Out" InputGestureText="Shift+O" Click="ContextMenuItem_Click"/>
         </ContextMenu>
     </Window.Resources>
     <Window.InputBindings>
@@ -27,14 +32,17 @@
         <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding Path=SaveDocumentCommand}"/>
         <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding Path=ExitCommand}"/>
         <KeyBinding Key="Z" Modifiers="Ctrl" Command="{Binding Path=UndoCommand}"/>
+        <KeyBinding Key="Y" Modifiers="Ctrl" Command="{Binding Path=RedoCommand}"/>
         <KeyBinding Key="X" Modifiers="Ctrl" Command="{Binding Path=CutCommand}"/>
         <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding Path=CopyCommand}"/>
-        <KeyBinding Key="V" Modifiers="Ctrl" Command="{Binding Path=InsertItemCommand}" CommandParameter="FromClipboard"/>
+        <KeyBinding Key="V" Modifiers="Ctrl" Command="{Binding Path=PasteCommand}" CommandParameter="FromClipboard"/>
         <KeyBinding Key="Insert" Command="{Binding Path=InsertItemCommand}"/>
         <KeyBinding Key="Del" Command="{Binding Path=DeleteItemCommand}"/>
-        <KeyBinding Key="U" Modifiers="Ctrl" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1"/>
-        <KeyBinding Key="D" Modifiers="Ctrl" Command="{Binding Path=MoveItemCommand}" CommandParameter="1"/>
-        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding Path=RenameItemCommand}"/>
+        <KeyBinding Key="D" Modifiers="Ctrl" Command="{Binding Path=DuplicateItemCommand}"/>
+        <KeyBinding Key="U" Modifiers="Shift" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1"/>
+        <KeyBinding Key="D" Modifiers="Shift" Command="{Binding Path=MoveItemCommand}" CommandParameter="1"/>
+        <KeyBinding Key="I" Modifiers="Shift" Command="{Binding Path=MoveInCommand}"/>
+        <KeyBinding Key="O" Modifiers="Shift" Command="{Binding Path=MoveOutCommand}"/>
     </Window.InputBindings>
     <DockPanel>
         <Menu Name="mainMenu" DockPanel.Dock="Top">
@@ -49,16 +57,20 @@
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="Undo" Command="{Binding Path=UndoCommand}" InputGestureText="Ctrl+Z"/>
+                <MenuItem Header="Redo" Command="{Binding Path=RedoCommand}" InputGestureText="Ctrl+Y"/>
                 <Separator/>
                 <MenuItem Header="Cut" Command="{Binding Path=CutCommand}" InputGestureText="Ctrl+X"/>
                 <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" InputGestureText="Ctrl+C"/>
-                <MenuItem Header="Paste" Command="{Binding Path=InsertItemCommand}" CommandParameter="FromClipboard" InputGestureText="Ctrl+V"/>
+                <MenuItem Header="Paste" Command="{Binding Path=PasteCommand}" CommandParameter="FromClipboard" InputGestureText="Ctrl+V"/>
+                <MenuItem Header="Duplicate" Command="{Binding Path=DuplicateItemCommand}" InputGestureText="Ctrl+D"/>
                 <MenuItem Header="Delete" Command="{Binding Path=DeleteItemCommand}" InputGestureText="Del"/>
                 <Separator/>
                 <MenuItem Header="Insert" Command="{Binding Path=InsertItemCommand}" InputGestureText="Insert"/>
                 <Separator/>
-                <MenuItem Header="Move Up" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1" InputGestureText="Ctrl+U"/>
-                <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1" InputGestureText="Ctrl+D"/>
+                <MenuItem Header="Move Up" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1" InputGestureText="Shift+U"/>
+                <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1" InputGestureText="Shift+D"/>
+                <MenuItem Header="Move In" Command="{Binding Path=MoveInCommand}" InputGestureText="Shift+I"/>
+                <MenuItem Header="Move Out" Command="{Binding Path=MoveOutCOmmand}" InputGestureText="Shift+O"/>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="About" Command="{Binding Path=AboutCommand}"/>
@@ -96,6 +108,7 @@
                             <TextBox Name="itemEditField"
                                      Text="{Binding Path=Name, Mode=OneWay}"
                                      GotFocus="TreeViewItem_TextBox_GotFocus"
+                                     LostFocus="TreeViewItem_TextBox_LostFocus"
                                      MinWidth="100"
                                      BorderThickness="0"
                                      Visibility="{Binding Path=IsBeingEditedInView, Converter={StaticResource isItemBeingEditedUIElementVisibilityConverter}, ConverterParameter=NameEditField}"
@@ -108,7 +121,8 @@
                 </TreeView.ItemTemplate>
             </TreeView>
             <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" BorderThickness="1" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}"
-                    Width="200">
+                    Width="200"
+                    Visibility="Collapsed">
                 <StackPanel Orientation="Vertical" Background="{x:Static SystemColors.ControlLightBrush}">
                     <StackPanel Orientation="Vertical">
                         <Border Background="LightBlue">

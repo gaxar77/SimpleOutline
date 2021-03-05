@@ -21,86 +21,25 @@ namespace SimpleOutline.ViewModels
 
         public override void Execute(object parameter)
         {
+            if (ViewModel.SelectedItem == null)
+                throw new CommandFailedException();
+
+            _insertedItem = new OutlineItem("Topic");
+
             _lastSelectedItem = ViewModel.SelectedItem;
-            _insertedItem = new OutlineItem("New Item");
-
-            if (parameter is string stringParameter && stringParameter == "FromClipboard")
+            var indexOfSelectedItem = _lastSelectedItem.IndexInParent();
+            if (indexOfSelectedItem == -1)
             {
-                _insertedItem = OutlineItem.LoadFromClipboard();
-                if (_insertedItem == null)
-                    throw new CommandFailedException();
+                ViewModel.Document.Items[0].Items.Insert(0, _insertedItem);
+            }
+            else
+            {
+                _lastSelectedItem.ParentItem.Items.Insert(indexOfSelectedItem + 1, _insertedItem);
             }
 
-            if (ViewModel.ItemInsertionMode == OutlineItemInsertionMode.InsertAsLastChild)
-            {
-                _parentItem = ViewModel.SelectedItem;
-
-                if (_parentItem != null)
-                {
-                    _parentItem.Items.Add(_insertedItem);
-                }
-                else
-                {
-                    throw new CommandFailedException();
-                }
-            }
-            else if (ViewModel.ItemInsertionMode == OutlineItemInsertionMode.InsertAsFirstChild)
-            {
-                _parentItem = ViewModel.SelectedItem;
-
-                if (_parentItem != null)
-                {
-                    _parentItem.Items.Insert(0, _insertedItem);
-                }
-                else
-                {
-                    throw new CommandFailedException();
-                }
-            }
-            else if (ViewModel.ItemInsertionMode == OutlineItemInsertionMode.InsertAsNextSibling)
-            {
-                _parentItem = ViewModel.SelectedItem;
-
-                if (_parentItem != null)
-                {
-                    _parentItem = _parentItem.ParentItem;
-                    if (_parentItem != null)
-                    {
-                        _parentItem.Items.Insert(_parentItem.Items.IndexOf(ViewModel.SelectedItem) + 1, _insertedItem);
-                    }
-                    else
-                    {
-                        throw new CommandFailedException();
-                    }
-                }
-                else
-                {
-                    throw new CommandFailedException();
-                }
-            }
-            else if (ViewModel.ItemInsertionMode == OutlineItemInsertionMode.InsertAsPreviousSibling)
-            {
-                _parentItem = ViewModel.SelectedItem;
-
-                if (_parentItem != null)
-                {
-                    _parentItem = _parentItem.ParentItem;
-                    if (_parentItem != null)
-                    {
-                        _parentItem.Items.Insert(_parentItem.Items.IndexOf(ViewModel.SelectedItem), _insertedItem);
-                    }
-                    else
-                    {
-                        throw new CommandFailedException();
-                    }
-                }
-                else
-                {
-                    throw new CommandFailedException();
-                }
-            }
-
+            _parentItem = _insertedItem.ParentItem;
             _insertedItem.IsSelectedInView = true;
+
             ViewModel.SetFocusOnItemsView();
         }
 

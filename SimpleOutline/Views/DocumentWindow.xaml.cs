@@ -53,7 +53,7 @@ namespace SimpleOutline.Views
 
             FocusManager.SetFocusedElement(FocusManager.GetFocusScope(editField), null);
             Keyboard.ClearFocus();*/
-           
+
         }
         private void TreeViewItem_TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -70,7 +70,7 @@ namespace SimpleOutline.Views
             var viewModel = (ViewModel1)DataContext;
             var menuItem = (MenuItem)sender;
 
-            switch(menuItem.Header)
+            switch (menuItem.Header)
             {
                 case "Cut":
                     viewModel.CutCommand.Execute(null);
@@ -79,7 +79,10 @@ namespace SimpleOutline.Views
                     viewModel.CopyCommand.Execute(null);
                     break;
                 case "Paste":
-                    viewModel.InsertItemCommand.Execute("FromClipboard");
+                    viewModel.PasteCommand.Execute(null);
+                    break;
+                case "Duplicate":
+                    viewModel.DuplicateItemCommand.Execute(null);
                     break;
                 case "Delete":
                     viewModel.DeleteItemCommand.Execute(null);
@@ -92,6 +95,12 @@ namespace SimpleOutline.Views
                     break;
                 case "Move Down":
                     viewModel.MoveItemCommand.Execute("1");
+                    break;
+                case "Move In":
+                    viewModel.MoveInCommand.Execute(null);
+                    break;
+                case "Move Out":
+                    viewModel.MoveOutCommand.Execute(null);
                     break;
             }
         }
@@ -188,7 +197,7 @@ namespace SimpleOutline.Views
                 TreeViewItem childItem = (TreeViewItem)generator.ContainerFromIndex(i);
                 retrievedItem = GetTreeViewItem(childItem.ItemContainerGenerator, outlineItem);
                 if (retrievedItem != null)
-                    return (TreeViewItem)retrievedItem; 
+                    return (TreeViewItem)retrievedItem;
             }
 
             return null;
@@ -212,6 +221,29 @@ namespace SimpleOutline.Views
         private void insertAsPreviousTopicRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             ViewModel.ItemInsertionMode = OutlineItemInsertionMode.InsertAsPreviousSibling;
+        }
+
+        private void TreeViewItem_TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            CancelItemEdit();
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            CancelItemEdit();
+        }
+
+        private void CancelItemEdit()
+        {
+            if (ViewModel.SelectedItem != null)
+            {
+                ViewModel.SelectedItem.IsBeingEditedInView = false;
+            }
+        }
+
+        private void Window_LostFocus(object sender, RoutedEventArgs e)
+        {
+            //CancelItemEdit();
         }
     }
 }

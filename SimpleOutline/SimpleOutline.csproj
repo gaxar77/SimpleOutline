@@ -63,12 +63,17 @@
     <Compile Include="ViewModels\CopyCommand.cs" />
     <Compile Include="ViewModels\CutCommand.cs" />
     <Compile Include="ViewModels\DeleteItemCommand.cs" />
+    <Compile Include="ViewModels\DuplicateItemCommand.cs" />
     <Compile Include="ViewModels\ExitCommand.cs" />
     <Compile Include="ViewModels\InsertItemCommand.cs" />
     <Compile Include="ViewModels\MoveItemCommand.cs" />
+    <Compile Include="ViewModels\MoveItemInCommand.cs" />
+    <Compile Include="ViewModels\MoveItemOutCommand.cs" />
     <Compile Include="ViewModels\NewDocumentCommand.cs" />
     <Compile Include="Misc\NotifyableBase.cs" />
     <Compile Include="ViewModels\OpenDocumentCommand.cs" />
+    <Compile Include="ViewModels\PasteCommand.cs" />
+    <Compile Include="ViewModels\RedoCommand.cs" />
     <Compile Include="ViewModels\SaveDocumentAsCommand.cs" />
     <Compile Include="ViewModels\SaveDocumentCommand.cs" />
     <Compile Include="ViewModels\SimpleOutlineFileDialogConstants.cs" />
