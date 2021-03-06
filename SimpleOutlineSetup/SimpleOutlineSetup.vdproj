@@ -166,9 +166,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:SimpleOutline"
+        "ProductName" = "8:SimpleOutline 1.0"
         "ProductCode" = "8:{6D2A7243-9C79-4569-B1B6-70BDF37FC7CE}"
-        "PackageCode" = "8:{AF00DB32-0304-490F-898C-7D3E23A8CBDA}"
+        "PackageCode" = "8:{30460951-1C0C-410F-815F-9C7B698FEF7E}"
         "UpgradeCode" = "8:{D354DCE2-A60A-4E64-B509-27D851EF9522}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

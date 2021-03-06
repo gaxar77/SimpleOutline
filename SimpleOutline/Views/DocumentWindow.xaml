@@ -57,6 +57,8 @@
                 <MenuItem Header="Save" Command="{Binding SaveDocumentCommand}" InputGestureText="Ctrl+S"/>
                 <MenuItem Header="Save As" Command="{Binding SaveDocumentAsCommand}"/>
                 <Separator/>
+                <MenuItem Header="Export to Html" Command="{Binding ExportToHtmlCommand}"/>
+                <Separator/>
                 <MenuItem Header="Exit" Command="{Binding ExitCommand}" InputGestureText="Alt+F4"/>
             </MenuItem>
             <MenuItem Header="_Edit">

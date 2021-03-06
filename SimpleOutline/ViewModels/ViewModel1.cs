@@ -46,8 +46,9 @@ namespace SimpleOutline.ViewModels
         
         public ICommand MoveInCommand { get; private set; }
         public ICommand MoveOutCommand { get; private set; }
-        public UndoableCommandManager UndoCommandManager { get; private set; }
 
+        public ICommand ExportToHtmlCommand { get; private set; }
+        public UndoableCommandManager UndoCommandManager { get; private set; }
         public OutlineItem SelectedItem
         {
             get { return _selectedItem; }
@@ -87,6 +88,8 @@ namespace SimpleOutline.ViewModels
 
             AboutCommand = new AboutCommand(this);
             ExitCommand = new ExitCommand(this);
+
+            ExportToHtmlCommand = new ExportToHtmlCommand(this);
         }
 
         public void LoadDocument(string fileName)
