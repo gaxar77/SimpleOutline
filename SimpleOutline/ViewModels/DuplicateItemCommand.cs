@@ -15,6 +15,7 @@ namespace SimpleOutline.ViewModels
             _pasteCommand = new PasteCommand(viewModel);
         }
 
+        //Clipboard data preservation has not been tested yet.
         public override void Execute(object parameter)
         {
             if (ViewModel.SelectedItem == null)

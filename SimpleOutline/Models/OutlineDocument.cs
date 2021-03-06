@@ -113,6 +113,12 @@ namespace SimpleOutline.Models
                 throw new DecodingException();
             }
 
+            if (xmlElement.Attributes().Count() > 0)
+            {
+
+                throw new DecodingException();
+            }
+
             if (xmlElement.Elements().SingleOrDefault(e => e.Name != "Outline") != null)
             {
                 throw new DecodingException();
@@ -124,6 +130,11 @@ namespace SimpleOutline.Models
             }
 
             var xmlOutlineElement = xmlElement.Element("Outline");
+
+            if (xmlOutlineElement.Attributes().Count() > 0)
+            {
+                throw new DecodingException();
+            }
 
             if (xmlOutlineElement.Elements("Item").Count() != 1)
             {
