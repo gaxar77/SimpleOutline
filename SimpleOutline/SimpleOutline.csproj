@@ -56,6 +56,7 @@
     <Compile Include="IO\OutlineDocumentToHtmlFileExporter.cs" />
     <Compile Include="Models\DecodingException.cs" />
     <Compile Include="Models\OutlineDocument.cs" />
+    <Compile Include="Models\OutlineDocumentState.cs" />
     <Compile Include="Models\OutlineItemCollection.cs" />
     <Compile Include="Models\OutlineItemCollectionClipboardAdapter.cs" />
     <Compile Include="ValueConverters\DocumentFileNameToApplicationTitleBarCaptionConverter.cs" />

@@ -2,16 +2,11 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Xml.Linq;
+using SimpleOutline.Misc;
 
 namespace SimpleOutline.Models
 {
-    public enum OutlineDocumentState
-    {
-        NewDocument,
-        LoadedDocument,
-        SavedDocument
-    }
-    public class OutlineDocument : INotifyPropertyChanged
+    public class OutlineDocument : NotifyableBase
     {
         private string _fileName;
         private OutlineItemCollection _items;
@@ -48,16 +43,6 @@ namespace SimpleOutline.Models
         {
             get { return _items; }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string propertyName)
-        {
-            var eventArgs = new PropertyChangedEventArgs(propertyName);
-
-            PropertyChanged?.Invoke(this, eventArgs);
-        }
-
         public OutlineDocument(string fileName)
         {
             if (fileName == null)

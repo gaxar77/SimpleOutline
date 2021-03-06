@@ -6,8 +6,16 @@ namespace SimpleOutline.ViewModels
 {
     public class InsertItemCommand : UndoableCommand
     {
-        const string DefaultCommandParameter = "InsertBefore";
+        public class CommandParameter
+        {
+            public const string InsertAsFirstChild = "InsertAsFirstChild";
+            public const string InsertBefore = "InsertBefore";
+            public const string InsertAsNext = "InsertAsNext";
+            public const string InsertAfter = "InsertAfter";
+        }
 
+        const string DefaultCommandParameter = CommandParameter.InsertBefore;
+        
         OutlineItem _parentItem;
         OutlineItem _insertedItem;
         OutlineItem _lastSelectedItem;
@@ -27,72 +35,87 @@ namespace SimpleOutline.ViewModels
             if (ViewModel.SelectedItem == null)
                 throw new CommandFailedException();
 
-            _insertedItem = new OutlineItem("Topic");
             _lastSelectedItem = ViewModel.SelectedItem;
 
-            var commandParameter = (string)parameter;
-            if (commandParameter == null)
-                commandParameter = DefaultCommandParameter;
+            var itemToInsert = new OutlineItem();
 
-            switch (commandParameter)
-            {
-                case "InsertBefore":
-                case "InsertAfter":
-                case "InsertAsFirstChild":
-                case "InsertAsNext":
-                    break;
-                default:
-                    throw new CommandFailedException();
-            }
-
-            if (ViewModel.SelectedItem.ParentItem == null)
-                commandParameter = "InsertAsFirstChild";
-            else
-            {
-                if (commandParameter == "InsertAsNext")
-                {
-                    if (ViewModel.SelectedItem.Items.Count > 0)
-                        commandParameter = "InsertAsFirstChild";
-                    else
-                        commandParameter = "InsertAfter";
-                }
-            }
-
-            if (commandParameter == "InsertBefore")
-            {
-                ExecuteInsertItemBefore();
-            }
-            else if (commandParameter == "InsertAfter")
-            {
-                ExecuteInsertItemAfter();
-            }
-            else if (commandParameter == "InsertAsFirstChild")
-            {
-                ExecuteInsertItemAsFirstChild();
-            }
-
+            string commandParameter = ChooseRightCommandParameter(parameter);
+            _insertedItem = InsertItem(commandParameter);
+            
             _parentItem = _insertedItem.ParentItem;
             _insertedItem.IsSelectedInView = true;
 
             ViewModel.SetFocusOnItemsView();
         }
 
-        private void ExecuteInsertItemAsFirstChild()
+        private OutlineItem InsertItem(string commandParameter)
         {
-            ViewModel.SelectedItem.Items.Insert(0, _insertedItem);
-            _parentItem = _insertedItem.ParentItem;
+            var itemToInsert = new OutlineItem();
+
+            if (commandParameter == CommandParameter.InsertBefore)
+            {
+                ExecuteInsertItemBefore(itemToInsert);
+            }
+            else if (commandParameter == CommandParameter.InsertAfter)
+            {
+                ExecuteInsertItemAfter(itemToInsert);
+            }
+            else if (commandParameter == CommandParameter.InsertAsFirstChild)
+            {
+                ExecuteInsertItemAsFirstChild(itemToInsert);
+            }
+
+            return itemToInsert;
         }
 
-        private void ExecuteInsertItemAfter()
+        private string ChooseRightCommandParameter(object parameter)
         {
-            _parentItem = ViewModel.SelectedItem.ParentItem;
-            _parentItem.Items.Insert(ViewModel.SelectedItem.IndexInParent() + 1, _insertedItem);
+            var commandParameter = (string)parameter;
+            if (commandParameter == null)
+                commandParameter = DefaultCommandParameter;
+
+            switch (commandParameter)
+            {
+                case CommandParameter.InsertBefore:
+                case CommandParameter.InsertAsFirstChild:
+                case CommandParameter.InsertAfter:
+                case CommandParameter.InsertAsNext:
+                    break;
+                default:
+                    throw new CommandFailedException();
+            }
+
+            if (ViewModel.SelectedItem.ParentItem == null)
+                commandParameter = CommandParameter.InsertAsFirstChild;
+            else
+            {
+                if (commandParameter == CommandParameter.InsertAsNext)
+                {
+                    if (ViewModel.SelectedItem.Items.Count > 0)
+                        commandParameter = CommandParameter.InsertAsFirstChild;
+                    else
+                        commandParameter = CommandParameter.InsertAfter;
+                }
+            }
+
+            return commandParameter;
         }
 
-        private void ExecuteInsertItemBefore()
+        private void ExecuteInsertItemAsFirstChild(OutlineItem itemToInsert)
         {
-            _parentItem = ViewModel.SelectedItem.ParentItem;
-            _parentItem.Items.Insert(ViewModel.SelectedItem.IndexInParent(), _insertedItem);
+            ViewModel.SelectedItem.Items.Insert(0, itemToInsert);
+        }
+
+        private void ExecuteInsertItemAfter(OutlineItem itemToInsert)
+        {
+            var parentOfSelectedItem = ViewModel.SelectedItem.ParentItem;
+            parentOfSelectedItem.Items.Insert(ViewModel.SelectedItem.IndexInParent() + 1, itemToInsert);
+        }
+
+        private void ExecuteInsertItemBefore(OutlineItem itemToInsert)
+        {
+            var parentOfSelectedItem = ViewModel.SelectedItem.ParentItem;
+            parentOfSelectedItem.Items.Insert(ViewModel.SelectedItem.IndexInParent(), itemToInsert);
         }
 
         public override void Undo()

@@ -7,13 +7,14 @@ using System.ComponentModel;
 using System.Xml.Linq;
 using System.Collections.Specialized;
 using System.Windows;
+using SimpleOutline.Misc;
 
 namespace SimpleOutline.Models
 {
     [Serializable]
-    public class OutlineItem : INotifyPropertyChanged
+    public class OutlineItem : NotifyableBase
     {
-        private string _name;
+        private string _name = "Topic";
         private OutlineItemCollection _items;
 
         [NonSerialized]
@@ -31,7 +32,7 @@ namespace SimpleOutline.Models
         public string Name
         {
             get { return _name; }
-            
+
             set
             {
                 if (value == null)
@@ -123,20 +124,21 @@ namespace SimpleOutline.Models
                 _parent = value;
             }
         }
+        public OutlineItem()
+        {
+            Items = new OutlineItemCollection();
 
-        public event PropertyChangedEventHandler PropertyChanged;
+            Items.CollectionChanged += Items_CollectionChanged;
+            IsExpandedInView = true;
+        }
 
         public OutlineItem(string name)
+            : this()
         {
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
 
             Name = name;
-
-            Items = new OutlineItemCollection();
-
-            Items.CollectionChanged += Items_CollectionChanged;
-            IsExpandedInView = true;
         }
 
         private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -160,13 +162,6 @@ namespace SimpleOutline.Models
                     item.ParentItem = null;
                 }
             }
-        }
-
-        public void OnPropertyChanged(string propertyName)
-        {
-            var eventArgs = new PropertyChangedEventArgs(propertyName);
-
-            PropertyChanged?.Invoke(this, eventArgs);
         }
         public XElement ToXmlElement()
         {
