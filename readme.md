@@ -16,4 +16,4 @@ Simple Outline is an application for creating and editing outline.
 10. Topics have context menus.
 11. You can use keyboard shortcuts.
 ## Screenshots
-<img src="/screenshots/2021-03-05.png"/>
+<img src="./screenshots/2021-03-05.png"/>
