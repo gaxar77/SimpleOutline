@@ -74,7 +74,7 @@
                 <MenuItem Header="Move Up" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1" InputGestureText="Ctrl+F2"/>
                 <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1" InputGestureText="Alt+F2"/>
                 <MenuItem Header="Move In" Command="{Binding Path=MoveInCommand}" InputGestureText="Ctrl+F3"/>
-                <MenuItem Header="Move Out" Command="{Binding Path=MoveOutCOmmand}" InputGestureText="Alt+F3"/>
+                <MenuItem Header="Move Out" Command="{Binding Path=MoveOutCommand}" InputGestureText="Alt+F3"/>
             </MenuItem>
             <MenuItem Header="Insert">
                 <MenuItem Header="Before" Command="{Binding Path=InsertItemCommand}" InputGestureText="Insert"/>
