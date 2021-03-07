@@ -6,7 +6,7 @@ namespace SimpleOutline.ViewModels
 {
     public class InsertItemCommand : UndoableCommand
     {
-        public class CommandParameter
+        public class InsertionMode
         {
             public const string InsertAsFirstChild = "InsertAsFirstChild";
             public const string InsertBefore = "InsertBefore";
@@ -14,11 +14,13 @@ namespace SimpleOutline.ViewModels
             public const string InsertAfter = "InsertAfter";
         }
 
-        const string DefaultCommandParameter = CommandParameter.InsertBefore;
+        const string DefaultCommandParameter = InsertionMode.InsertBefore;
         
         OutlineItem _parentItem;
         OutlineItem _insertedItem;
         OutlineItem _lastSelectedItem;
+
+        public OutlineItem ItemToInsert { get; set; } = new OutlineItem();
 
         public InsertItemCommand(ViewModel1 viewModel)
             : base(viewModel)
@@ -27,7 +29,7 @@ namespace SimpleOutline.ViewModels
         }
         public override bool CanExecute(object parameter)
         {
-            return base.CanExecute(parameter);
+            return ViewModel.SelectedItem != null;
         }
 
         public override void Execute(object parameter)
@@ -50,17 +52,17 @@ namespace SimpleOutline.ViewModels
 
         private OutlineItem InsertItem(string commandParameter)
         {
-            var itemToInsert = new OutlineItem();
+            var itemToInsert = ItemToInsert.Clone();
 
-            if (commandParameter == CommandParameter.InsertBefore)
+            if (commandParameter == InsertionMode.InsertBefore)
             {
                 ExecuteInsertItemBefore(itemToInsert);
             }
-            else if (commandParameter == CommandParameter.InsertAfter)
+            else if (commandParameter == InsertionMode.InsertAfter)
             {
                 ExecuteInsertItemAfter(itemToInsert);
             }
-            else if (commandParameter == CommandParameter.InsertAsFirstChild)
+            else if (commandParameter == InsertionMode.InsertAsFirstChild)
             {
                 ExecuteInsertItemAsFirstChild(itemToInsert);
             }
@@ -76,25 +78,25 @@ namespace SimpleOutline.ViewModels
 
             switch (commandParameter)
             {
-                case CommandParameter.InsertBefore:
-                case CommandParameter.InsertAsFirstChild:
-                case CommandParameter.InsertAfter:
-                case CommandParameter.InsertAsNext:
+                case InsertionMode.InsertBefore:
+                case InsertionMode.InsertAsFirstChild:
+                case InsertionMode.InsertAfter:
+                case InsertionMode.InsertAsNext:
                     break;
                 default:
                     throw new CommandFailedException();
             }
 
             if (ViewModel.SelectedItem.ParentItem == null)
-                commandParameter = CommandParameter.InsertAsFirstChild;
+                commandParameter = InsertionMode.InsertAsFirstChild;
             else
             {
-                if (commandParameter == CommandParameter.InsertAsNext)
+                if (commandParameter == InsertionMode.InsertAsNext)
                 {
                     if (ViewModel.SelectedItem.Items.Count > 0)
-                        commandParameter = CommandParameter.InsertAsFirstChild;
+                        commandParameter = InsertionMode.InsertAsFirstChild;
                     else
-                        commandParameter = CommandParameter.InsertAfter;
+                        commandParameter = InsertionMode.InsertAfter;
                 }
             }
 

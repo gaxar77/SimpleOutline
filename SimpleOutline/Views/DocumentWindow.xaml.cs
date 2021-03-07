@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using SimpleOutline.ViewModels;
 using SimpleOutline.Models;
+using System.Timers;
 
 namespace SimpleOutline.Views
 {
@@ -21,7 +22,7 @@ namespace SimpleOutline.Views
     /// </summary>
     public partial class DocumentWindow : Window
     {
-        private bool isWindowClosing = false;
+        Timer _timer;
         public ViewModel1 ViewModel
         {
             get { return (ViewModel1)DataContext; }
@@ -31,8 +32,18 @@ namespace SimpleOutline.Views
         {
             InitializeComponent();
 
+            _timer = new Timer(1000);
+
+            _timer.Elapsed += _timer_Elapsed;
+
             this.Loaded += DocumentWindow_Loaded;
+            this.Unloaded += DocumentWindow_Unloaded;
             this.Closing += DocumentWindow_Closing;
+        }
+
+        private void DocumentWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _timer.Stop();
         }
 
         private void DocumentWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -44,6 +55,14 @@ namespace SimpleOutline.Views
 
         private void DocumentWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            
+            _timer.Start();
+            
+        }
+
+        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(() => ViewModel.InvalidateCanExecuteCommands());
         }
 
         private void outlineTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

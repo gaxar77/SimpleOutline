@@ -50,6 +50,8 @@ namespace SimpleOutline.ViewModels
 
             _oldName = Item.Name;
             Item.Name = NewName;
+
+            ViewModel.InvalidateCanExecuteCommands();
         }
 
         public override void Undo()

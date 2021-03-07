@@ -63,6 +63,7 @@
     <Compile Include="ViewModels\AboutCommand.cs" />
     <Compile Include="ViewModels\CommandBase.cs" />
     <Compile Include="ViewModels\CommandFailedException.cs" />
+    <Compile Include="ViewModels\CommandWrapper.cs" />
     <Compile Include="ViewModels\CopyCommand.cs" />
     <Compile Include="ViewModels\CutCommand.cs" />
     <Compile Include="ViewModels\DeleteItemCommand.cs" />
@@ -76,7 +77,7 @@
     <Compile Include="ViewModels\NewDocumentCommand.cs" />
     <Compile Include="Misc\NotifyableBase.cs" />
     <Compile Include="ViewModels\OpenDocumentCommand.cs" />
-    <Compile Include="ViewModels\OutlineItemExtensions.cs" />
+    <Compile Include="Models\OutlineItemExtensions.cs" />
     <Compile Include="ViewModels\PasteCommand.cs" />
     <Compile Include="ViewModels\RedoCommand.cs" />
     <Compile Include="ViewModels\SaveDocumentAsCommand.cs" />

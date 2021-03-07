@@ -141,6 +141,16 @@ namespace SimpleOutline.Models
             Name = name;
         }
 
+        public OutlineItem Clone()
+        {
+            //Temporary solution. Todo: Implement  copy constructor.
+
+            var thisItemAsXmlElement = ToXmlElement();
+            var clone = OutlineItem.CreateFromXmlElement(thisItemAsXmlElement);
+
+            return clone;
+        }
+
         private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
@@ -214,7 +224,6 @@ namespace SimpleOutline.Models
 
             return thisOutlineItem;
         }
-
         public static OutlineItem LoadFromClipboard()
         {
             if (Clipboard.ContainsText())

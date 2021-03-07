@@ -22,8 +22,7 @@ namespace SimpleOutline.ViewModels
         {
 
         }
-
-        protected void OnCanExecuteChanged()
+        public void InvalidateCanExecute()
         {
             var eventArgs = new EventArgs();
 

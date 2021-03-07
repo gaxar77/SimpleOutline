@@ -67,27 +67,27 @@ namespace SimpleOutline.ViewModels
         {
             UndoCommandManager = new UndoableCommandManager(this);
 
-            NewDocumentCommand = new NewDocumentCommand(this);
-            OpenDocumentCommand = new OpenDocumentCommand(this);
-            SaveDocumentCommand = new SaveDocumentCommand(this);
-            SaveDocumentAsCommand = new SaveDocumentAsCommand(this);
+            NewDocumentCommand = new CommandWrapper(this, new NewDocumentCommand(this));
+            OpenDocumentCommand = new CommandWrapper(this, new OpenDocumentCommand(this));
+            SaveDocumentCommand = new CommandWrapper(this, new SaveDocumentCommand(this));
+            SaveDocumentAsCommand = new CommandWrapper(this, new SaveDocumentAsCommand(this));
 
-            UndoCommand = new UndoCommand(this);
-            RedoCommand = new RedoCommand(this);
+            UndoCommand = new CommandWrapper(this, new UndoCommand(this));
+            RedoCommand = new CommandWrapper(this, new RedoCommand(this));
 
-            InsertItemCommand = new UndoableCommandForView<InsertItemCommand>(this);
-            DuplicateItemCommand = new UndoableCommandForView<DuplicateItemCommand>(this);
-            DeleteItemCommand = new UndoableCommandForView<DeleteItemCommand>(this);
-            MoveItemCommand = new UndoableCommandForView<MoveItemCommand>(this);
-            MoveInCommand = new UndoableCommandForView<MoveItemInCommand>(this);
-            MoveOutCommand = new UndoableCommandForView<MoveItemOutCommand>(this);
+            InsertItemCommand = new CommandWrapper(this, new UndoableCommandForView<InsertItemCommand>(this));
+            DuplicateItemCommand = new CommandWrapper(this, new UndoableCommandForView<DuplicateItemCommand>(this));
+            DeleteItemCommand = new CommandWrapper(this, new UndoableCommandForView<DeleteItemCommand>(this));
+            MoveItemCommand = new CommandWrapper(this, new UndoableCommandForView<MoveItemCommand>(this));
+            MoveInCommand = new CommandWrapper(this, new UndoableCommandForView<MoveItemInCommand>(this));
+            MoveOutCommand = new CommandWrapper(this, new UndoableCommandForView<MoveItemOutCommand>(this));
 
-            CutCommand = new UndoableCommandForView<CutCommand>(this);
-            CopyCommand = new CopyCommand(this);
-            PasteCommand = new UndoableCommandForView<PasteCommand>(this);
+            CutCommand = new CommandWrapper(this, new UndoableCommandForView<CutCommand>(this));
+            CopyCommand = new CommandWrapper(this, new CopyCommand(this));
+            PasteCommand = new CommandWrapper(this, new UndoableCommandForView<PasteCommand>(this));
 
-            AboutCommand = new AboutCommand(this);
-            ExitCommand = new ExitCommand(this);
+            AboutCommand = new CommandWrapper(this, new AboutCommand(this));
+            ExitCommand = new CommandWrapper(this, new ExitCommand(this));
 
             ExportToHtmlCommand = new ExportToHtmlCommand(this);
         }
@@ -144,6 +144,26 @@ namespace SimpleOutline.ViewModels
             if (previousItem != null)
                 previousItem.IsSelectedInView = true;
 
+        }
+
+        public void InvalidateCanExecuteCommands()
+        {
+            InvalidateCanExecuteCommand(InsertItemCommand);
+            InvalidateCanExecuteCommand(UndoCommand);
+            InvalidateCanExecuteCommand(CutCommand);
+            InvalidateCanExecuteCommand(CopyCommand);
+            InvalidateCanExecuteCommand(PasteCommand);
+            InvalidateCanExecuteCommand(DuplicateItemCommand);
+            InvalidateCanExecuteCommand(DeleteItemCommand);
+            InvalidateCanExecuteCommand(MoveInCommand);
+            InvalidateCanExecuteCommand(MoveOutCommand);
+            InvalidateCanExecuteCommand(MoveItemCommand);
+        }
+
+        private void InvalidateCanExecuteCommand(ICommand command)
+        {
+            var commandAsCommandBase = (CommandBase)command;
+            commandAsCommandBase.InvalidateCanExecute();
         }
     }
 }

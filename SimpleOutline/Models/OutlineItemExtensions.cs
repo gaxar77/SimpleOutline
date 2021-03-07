@@ -1,10 +1,18 @@
 ﻿using SimpleOutline.Models;
 using System;
 
-namespace SimpleOutline.ViewModels
+namespace SimpleOutline.Models
 {
     public static class OutlineItemExtensions
     {
+        public static void ReplaceWith(this OutlineItem itemToReplace, OutlineItem item)
+        {
+            var parent = itemToReplace.ParentItem;
+            var index = itemToReplace.IndexInParent();
+
+            parent.Items.RemoveAt(index);
+            parent.Items.Insert(index, item);
+        }
         public static int IndexInParent(this OutlineItem item)
         {
             if (item.ParentItem != null)

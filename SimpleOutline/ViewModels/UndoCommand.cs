@@ -10,9 +10,7 @@
 
         public override bool CanExecute(object parameter)
         {
-            return true;
-
-            //return ViewModel.CommandManager.CanUndo;
+            return ViewModel.UndoCommandManager.CanUndo;
         }
 
         public override void Execute(object parameter)
@@ -21,6 +19,8 @@
             {
                 ViewModel.UndoCommandManager.Undo();
             }
+
+            ViewModel.InvalidateCanExecuteCommands();
         }
     }
 }

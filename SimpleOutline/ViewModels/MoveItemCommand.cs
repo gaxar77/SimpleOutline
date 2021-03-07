@@ -41,14 +41,14 @@ namespace SimpleOutline.ViewModels
             _movedItemNewIndex = itemNewIndex;
             _movedItemOldIndex = itemOldIndex;
 
-            ViewModel.View.BringItemIntoView(_movedItem); //Untested Code
+            ViewModel.View.BringItemIntoView(_movedItem);
         }
 
         public override void Undo()
         {
             _movedItemParent.Items.Move(_movedItemNewIndex, _movedItemOldIndex);
 
-            ViewModel.View.BringItemIntoView(_movedItem); //Untested Code
+            ViewModel.View.BringItemIntoView(_movedItem);
         }
     }
 }
