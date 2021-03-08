@@ -18,4 +18,4 @@ An application for creating outlines for prose compositions.
 
 ## Screenshots
 
-![](Screenshots/2021-03-05.png)
+![](Screenshots/2021-03-08.png)

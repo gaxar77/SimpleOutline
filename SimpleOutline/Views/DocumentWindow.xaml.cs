@@ -44,6 +44,8 @@ namespace SimpleOutline.Views
         private void DocumentWindow_Unloaded(object sender, RoutedEventArgs e)
         {
             _timer.Stop();
+
+            ViewModel.Document.PropertyChanged -= Document_PropertyChanged;
         }
 
         private void DocumentWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -55,9 +57,20 @@ namespace SimpleOutline.Views
 
         private void DocumentWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            UpdateTitleBar();
+
+            ViewModel.Document.PropertyChanged += Document_PropertyChanged;
             
             _timer.Start();
             
+        }
+
+        private void Document_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(OutlineDocument.FileName))
+            {
+                UpdateTitleBar();
+            }
         }
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -216,6 +229,11 @@ namespace SimpleOutline.Views
                 editField.Focus();
                 editField.SelectAll();
             }
+        }
+
+        private void UpdateTitleBar()
+        {
+            Title = $"Simple Outline 1.0 - {ViewModel.Document.FileName}";
         }
 
         private TreeViewItem GetSelectedTreeViewItem()
