@@ -17,16 +17,17 @@
             <MenuItem Header="Paste" InputGestureText="Ctrl+V" Click="ContextMenuItem_Click"/>
             <MenuItem Header="Duplicate" InputGestureText="Ctrl+D" Click="ContextMenuItem_Click"/>
             <MenuItem Header="Delete" InputGestureText="Del" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Rename" InputGestureText="F2" Click="ContextMenuItem_Click"/>
             <Separator/>
             <MenuItem Header="Insert">
                 <MenuItem Header="Before" InputGestureText="Insert" Click="ContextMenuItem_Click"/>
                 <MenuItem Header="As Next" InputGestureText="Ctrl+Insert" Click="ContextMenuItem_Click"/>
             </MenuItem>
             <Separator/>
-            <MenuItem Header="Move Up" InputGestureText="Ctrl+F2" Click="ContextMenuItem_Click"/>
-            <MenuItem Header="Move Down" InputGestureText="Alt+F2" Click="ContextMenuItem_Click"/>
-            <MenuItem Header="Move In" InputGestureText="Ctrl+F3" Click="ContextMenuItem_Click"/>
-            <MenuItem Header="Move Out" InputGestureText="Alt+F2" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Move Up" InputGestureText="Alt+Up" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Move Down" InputGestureText="Alt+Down" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Move In" InputGestureText="Alt+Right" Click="ContextMenuItem_Click"/>
+            <MenuItem Header="Move Out" InputGestureText="Alt+Left" Click="ContextMenuItem_Click"/>
         </ContextMenu>
     </Window.Resources>
     <Window.InputBindings>
@@ -43,10 +44,10 @@
         <KeyBinding Key="Insert" Modifiers="Ctrl" Command="{Binding Path=InsertItemCommand}" CommandParameter="InsertAsNext"/>
         <KeyBinding Key="Del" Command="{Binding Path=DeleteItemCommand}"/>
         <KeyBinding Key="D" Modifiers="Ctrl" Command="{Binding Path=DuplicateItemCommand}"/>
-        <KeyBinding Key="F2" Modifiers="Ctrl" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1"/>
-        <KeyBinding Key="F2" Modifiers="Alt" Command="{Binding Path=MoveItemCommand}" CommandParameter="1"/>
-        <KeyBinding Key="F3" Modifiers="Ctrl" Command="{Binding Path=MoveInCommand}"/>
-        <KeyBinding Key="F3" Modifiers="Alt" Command="{Binding Path=MoveOutCommand}"/>
+        <KeyBinding Key="Up" Modifiers="Alt" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1"/>
+        <KeyBinding Key="Down" Modifiers="Alt" Command="{Binding Path=MoveItemCommand}" CommandParameter="1"/>
+        <KeyBinding Key="Right" Modifiers="Alt" Command="{Binding Path=MoveInCommand}"/>
+        <KeyBinding Key="Left" Modifiers="Alt" Command="{Binding Path=MoveOutCommand}"/>
     </Window.InputBindings>
     <DockPanel>
         <Menu Name="mainMenu" DockPanel.Dock="Top">
@@ -70,11 +71,12 @@
                 <MenuItem Header="Paste" Command="{Binding Path=PasteCommand}" CommandParameter="FromClipboard" InputGestureText="Ctrl+V"/>
                 <MenuItem Header="Duplicate" Command="{Binding Path=DuplicateItemCommand}" InputGestureText="Ctrl+D"/>
                 <MenuItem Header="Delete" Command="{Binding Path=DeleteItemCommand}" InputGestureText="Del"/>
+                <MenuItem Header="Rename" Name="RenameMenuItem" InputGestureText="F2" Click="RenameMenuItem_Click"/>
                 <Separator/>
-                <MenuItem Header="Move Up" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1" InputGestureText="Ctrl+F2"/>
-                <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1" InputGestureText="Alt+F2"/>
-                <MenuItem Header="Move In" Command="{Binding Path=MoveInCommand}" InputGestureText="Ctrl+F3"/>
-                <MenuItem Header="Move Out" Command="{Binding Path=MoveOutCommand}" InputGestureText="Alt+F3"/>
+                <MenuItem Header="Move Up" Command="{Binding Path=MoveItemCommand}" CommandParameter="-1" InputGestureText="Alt+Up"/>
+                <MenuItem Header="Move Down" Command="{Binding Path=MoveItemCommand}" CommandParameter="1" InputGestureText="Alt+Down"/>
+                <MenuItem Header="Move In" Command="{Binding Path=MoveInCommand}" InputGestureText="Alt+Right"/>
+                <MenuItem Header="Move Out" Command="{Binding Path=MoveOutCommand}" InputGestureText="Alt+Left"/>
             </MenuItem>
             <MenuItem Header="Insert">
                 <MenuItem Header="Before" Command="{Binding Path=InsertItemCommand}" InputGestureText="Insert"/>

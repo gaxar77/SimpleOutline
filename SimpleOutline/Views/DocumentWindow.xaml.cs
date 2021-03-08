@@ -114,6 +114,9 @@ namespace SimpleOutline.Views
                 case "Delete":
                     viewModel.DeleteItemCommand.Execute(null);
                     break;
+                case "Rename":
+                    BeginEditSelectedItem();
+                    break;
                 case "Insert":
                     viewModel.InsertItemCommand.Execute(null);
                     break;
@@ -156,7 +159,7 @@ namespace SimpleOutline.Views
                 return;
             }
 
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.F2)
             {
                 if (!viewModel.SelectedItem.IsBeingEditedInView)
                     BeginEditSelectedItem();
@@ -203,15 +206,16 @@ namespace SimpleOutline.Views
 
         private void BeginEditSelectedItem()
         {
-            var viewModel = (ViewModel1)DataContext;
+            if (ViewModel.SelectedItem != null)
+            {
+                ViewModel.SelectedItem.IsBeingEditedInView = true;
+                var treeViewItem = GetSelectedTreeViewItem();
+                var editField = FindItemEditFieldRecursively(treeViewItem);
 
-            viewModel.SelectedItem.IsBeingEditedInView = true;
-            var treeViewItem = GetSelectedTreeViewItem();
-            var editField = FindItemEditFieldRecursively(treeViewItem);
-
-            editField.InvalidateProperty(TextBox.TextProperty);
-            editField.Focus();
-            editField.SelectAll();
+                editField.InvalidateProperty(TextBox.TextProperty);
+                editField.Focus();
+                editField.SelectAll();
+            }
         }
 
         private TreeViewItem GetSelectedTreeViewItem()
@@ -261,6 +265,11 @@ namespace SimpleOutline.Views
         private void Window_LostFocus(object sender, RoutedEventArgs e)
         {
             //CancelItemEdit();
+        }
+
+        private void RenameMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            BeginEditSelectedItem();
         }
     }
 }
