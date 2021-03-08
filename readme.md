@@ -6,7 +6,7 @@ An application for creating outlines for prose compositions.
 1. Allows the user to save and open outline documents.
 2. Allows the user to insert a topic where the selected topic is.
 3. Allows the user to insert a topic right below the selected topic in the tree. If the next topic is already nested in the selected topic, the new topic will be nested in it.
-4. Allows the user to rename the selected topic. (Just press enter to begin renaming it.)
+4. Allows the user to rename the selected topic.
 5. Allows the user to nest and un-nest the selected topic. (Move In and Move Out options. Will be renamed in the near future.)
 6. Allows the user to move the selected topic up and down.
 7. Allows the user to cut and copy the selected topic.
